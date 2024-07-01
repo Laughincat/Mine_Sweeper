@@ -6,9 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="BorderPane"
+<fx:root type="GridPane"
         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <center>
-        <Button fx:id="startGameButton" onAction="#onStartGameButtonAction" text="Start"/>
-    </center>
+
 </fx:root>

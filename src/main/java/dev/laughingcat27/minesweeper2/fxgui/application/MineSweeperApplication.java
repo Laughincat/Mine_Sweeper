@@ -14,9 +14,7 @@ public class MineSweeperApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         RootPane rootPane = new RootPane();
-        TileNode tileNode = new TileNode(new Tile(5,5) {
-        });
-        Scene scene = new Scene(tileNode, 320, 240);
+        Scene scene = new Scene(rootPane, 320, 240);
 
         stage.setTitle("Hello!");
         stage.setScene(scene);
