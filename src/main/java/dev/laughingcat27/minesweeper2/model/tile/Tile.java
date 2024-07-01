@@ -16,7 +16,7 @@ public class Tile {
         // Set events
         this.openProperty.addListener((observableValue, aBoolean, newValue) -> {
             if (newValue) {
-                this.itemProperty.get().use();
+                this.itemProperty.get().consume();
             }
         });
     }

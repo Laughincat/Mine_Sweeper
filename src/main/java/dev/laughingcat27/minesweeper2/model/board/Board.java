@@ -13,6 +13,7 @@ public class Board {
     public Board(int columns, int rows) {
         this.grid = TileFactory.createTileBoard(columns, rows);
 
+        // Whenever a tile's item gets changed, update the counters so they represent the new bomb layout
         this.grid.forEach(row -> row.forEach(tile -> tile.getItemProperty().addListener(observable -> updateCounters())));
     }
 
