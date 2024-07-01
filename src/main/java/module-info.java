@@ -2,7 +2,6 @@ module dev.laughingcat27.minesweeper2 {
     requires javafx.controls;
     requires javafx.fxml;
 
-
-    opens dev.laughingcat27.minesweeper2 to javafx.fxml;
-    exports dev.laughingcat27.minesweeper2;
+    exports dev.laughingcat27.minesweeper2.fxgui.application;
+    opens dev.laughingcat27.minesweeper2.fxgui.application to javafx.fxml;
 }
