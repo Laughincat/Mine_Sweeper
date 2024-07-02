@@ -12,17 +12,14 @@ public class MineItem extends Item {
         MineItem.image = new Image(String.valueOf(CounterItem.class.getResource("Mine.png")));
     }
 
-    public MineItem() {
-        setDetectable(true);
+    public MineItem(List<List<Tile>> grid, Tile tile) {
+        super(grid, tile);
+        super.setDetectable(true);
+        super.imageProperty.set(MineItem.image);
     }
 
     @Override
-    public Image getImage() {
-        return MineItem.image;
-    }
-
-    @Override
-    public void action(List<List<Tile>> grid, Tile tile) {
+    public void action() {
 
     }
 }

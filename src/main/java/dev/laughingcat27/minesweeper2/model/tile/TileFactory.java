@@ -8,15 +8,20 @@ import java.util.List;
 
 public class TileFactory {
 
-    public static Tile createTile() {
-        Item item = ItemFactory.createItem();
-        return new Tile(item);
+    public static Tile createTile(List<List<Tile>> grid) {
+        Tile tile = new Tile();
+
+        // Create & add item to tile
+        Item item = ItemFactory.createItem(grid, tile);
+        tile.setItem(item);
+
+        return tile;
     }
 
-    public static List<Tile> createTileColumn(int length) {
+    public static List<Tile> createTileColumn(int length, List<List<Tile>> grid) {
         List<Tile> tiles = new ArrayList<>();
         for (int y = 0; y < length; y++) {
-            tiles.add(createTile());
+            tiles.add(createTile(grid));
         }
         return tiles;
     }
@@ -24,7 +29,7 @@ public class TileFactory {
     public static List<List<Tile>> createGrid(int columns, int rows) {
         List<List<Tile>> grid = new ArrayList<>();
         for (int x = 0; x < columns; x++) {
-            grid.add(createTileColumn(rows));
+            grid.add(createTileColumn(rows, grid));
         }
         return grid;
     }

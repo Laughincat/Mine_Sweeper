@@ -10,15 +10,15 @@ public class Tile {
     private BooleanProperty openProperty;
     private BooleanProperty lockedProperty;
 
-    public Tile(Item item) {
-        this.itemProperty = new SimpleObjectProperty<>(item);
+    public Tile() {
+        this.itemProperty = new SimpleObjectProperty<>();
         this.openProperty = new SimpleBooleanProperty(false);
         this.lockedProperty = new SimpleBooleanProperty(false);
 
         // Set events
-        this.openProperty.addListener((observableValue, aBoolean, newValue) -> {
+        this.openProperty.addListener((_, _, newValue) -> {
             if (newValue) {
-                this.itemProperty.get().consume();
+                this.itemProperty.get().use();
             }
         });
     }
@@ -85,6 +85,16 @@ public class Tile {
         return tiles1;
     }
 
+    public static List<Tile> getNeighbouringDetectableTiles(List<List<Tile>> grid, Tile tile) {
+        return Tile.getDetectableTiles(Tile.getNeighbouringTiles(grid, tile));
+    }
+
+    public static List<Tile> toTiles(List<List<Tile>> grid) {
+        List<Tile> tiles = new ArrayList<>();
+        grid.forEach(tiles::addAll);
+        return tiles;
+    }
+
     public ObjectProperty<Item> getItemProperty() {
         return this.itemProperty;
     }
@@ -107,6 +117,10 @@ public class Tile {
 
     public void setLocked(boolean locked) {
         this.lockedProperty.set(locked);
+    }
+
+    public void setItem(Item item) {
+        this.itemProperty.set(item);
     }
 
     public void open() {

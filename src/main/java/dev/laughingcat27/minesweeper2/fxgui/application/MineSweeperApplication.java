@@ -16,7 +16,7 @@ public class MineSweeperApplication extends Application {
         RootPane rootPane = new RootPane();
         Scene scene = new Scene(rootPane, 320, 240);
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Mine Sweeper");
         stage.setScene(scene);
         stage.show();
     }

@@ -19,6 +19,6 @@ public class ItemNode extends ImageView {
 
     public void setItem(Item item) {
         this.item = item;
-        this.setImage(item.getImage());
+        this.imageProperty().bind(item.getImageProperty());
     }
 }
