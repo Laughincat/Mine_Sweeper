@@ -7,7 +7,7 @@ import java.util.List;
 public class ItemFactory {
 
     public static Item createItem(List<List<Tile>> grid, Tile tile) {
-        double bombChance = 0.25;
+        double bombChance = 0.1;
 
         double random = Math.random();
 

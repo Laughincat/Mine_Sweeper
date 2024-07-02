@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="GridPane" alignment="CENTER"
+<fx:root type="ScrollPane" fitToWidth="true"
         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-
+    <GridPane fx:id="gridPane" alignment="CENTER"/>
 </fx:root>

@@ -6,11 +6,13 @@ import javafx.beans.property.*;
 import java.util.*;
 
 public class Tile {
+    private List<List<Tile>> grid;
     private ObjectProperty<Item> itemProperty;
     private BooleanProperty openProperty;
     private BooleanProperty lockedProperty;
 
-    public Tile() {
+    public Tile(List<List<Tile>> grid) {
+        this.grid = grid;
         this.itemProperty = new SimpleObjectProperty<>();
         this.openProperty = new SimpleBooleanProperty(false);
         this.lockedProperty = new SimpleBooleanProperty(false);
@@ -117,9 +119,15 @@ public class Tile {
     }
 
     public void open() {
-        if (!this.lockedProperty.get()) {
+        if (!this.openProperty.get() && !this.lockedProperty.get()) {
             this.openProperty.set(true);
-            System.out.println("Tile opened!");
+
+            boolean neighbouringDetectableTiles = !Tile.getNeighbouringDetectableTiles(this.grid, this).isEmpty();
+            boolean detectable = this.itemProperty.get().getDetectable();
+
+            if (!neighbouringDetectableTiles && !detectable) {
+                Tile.getNeighbouringTiles(this.grid, this).forEach(Tile::open);
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class TileFactory {
 
     public static Tile createTile(List<List<Tile>> grid) {
-        Tile tile = new Tile();
+        Tile tile = new Tile(grid);
 
         // Create & add item to tile
         Item item = ItemFactory.createItem(grid, tile);

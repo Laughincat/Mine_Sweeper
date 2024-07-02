@@ -15,6 +15,8 @@ module dev.laughingcat27.minesweeper2 {
     opens dev.laughingcat27.minesweeper.fxgui.game to javafx.fxml;
     exports dev.laughingcat27.util.fx.controls;
     opens dev.laughingcat27.util.fx.controls to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.fxgui.board;
+    opens dev.laughingcat27.minesweeper.fxgui.board to javafx.fxml;
 
     exports dev.laughingcat27.minesweeper.model.tile;
     opens dev.laughingcat27.minesweeper.model.tile to javafx.fxml;
