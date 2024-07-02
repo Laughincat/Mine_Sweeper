@@ -6,9 +6,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import dev.laughingcat27.minesweeper2.fxgui.game.GamePane?>
 <fx:root type="BorderPane"
-        xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <center>
-        <Button fx:id="startGameButton" onAction="#onStartGameButtonAction" text="Start"/>
+        <GamePane/>
     </center>
 </fx:root>

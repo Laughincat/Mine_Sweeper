@@ -23,10 +23,6 @@ public abstract class Item {
         this.consumedProperty = new SimpleBooleanProperty(false);
         this.detectableProperty = new SimpleBooleanProperty(false);
 
-        this.consumedProperty.addListener((_, _, newValue) -> {
-            if (newValue) action();
-        });
-
         // Bind events
         /*
         This binding has been put in the Board class,
@@ -53,12 +49,5 @@ public abstract class Item {
 
     protected void setDetectable(boolean detectable) {
         this.detectableProperty.set(detectable);
-    }
-
-    public abstract void action();
-
-    public final void use() {
-        System.out.println(this.getClass() + " Item used!");
-        this.consumedProperty.set(true);
     }
 }

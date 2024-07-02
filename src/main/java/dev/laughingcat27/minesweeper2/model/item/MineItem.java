@@ -3,9 +3,11 @@ package dev.laughingcat27.minesweeper2.model.item;
 import dev.laughingcat27.minesweeper2.model.tile.Tile;
 import javafx.scene.image.Image;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
-public class MineItem extends Item {
+public class MineItem extends UsableItem {
     private static Image image;
 
     static {
@@ -19,7 +21,7 @@ public class MineItem extends Item {
     }
 
     @Override
-    public void action() {
-
+    public void use() {
+        System.out.println("Allahu akbar");
     }
 }

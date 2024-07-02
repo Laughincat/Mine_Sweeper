@@ -7,13 +7,8 @@ import javafx.scene.image.Image;
 
 import java.util.List;
 
-public class CounterItem extends Item {
-    private static Image image;
+public class CounterItem extends UsableItem {
     private IntegerProperty countProperty;
-
-    static {
-        CounterItem.image = new Image(String.valueOf(CounterItem.class.getResource("0.png")));
-    }
 
     public CounterItem(List<List<Tile>> grid, Tile tile) {
         super(grid, tile);
@@ -21,24 +16,20 @@ public class CounterItem extends Item {
 
         // Bind stuff
         List<Tile> tiles = Tile.toTiles(this.grid);
-        tiles.forEach(tile1 -> tile1.getItemProperty().addListener(_ -> this.action()));
-        System.out.println(this.countProperty);
+        tiles.forEach(tile1 -> tile1.getItemProperty().addListener(_ -> this.updateCounter()));
         this.countProperty.addListener((_, _, newValue) -> {
             Image image = new Image(String.valueOf(CounterItem.class.getResource(newValue.toString() + ".png")));
             super.imageProperty.set(image);
         });
     }
 
-    @Override
-    public void action() {
+    private void updateCounter() {
         List<Tile> tiles = Tile.getNeighbouringDetectableTiles(super.grid, super.tile);
         this.countProperty.set(tiles.size());
+    }
 
-        System.out.println("Grid: " + super.grid);
-        System.out.println("Tile: " + super.tile);
-
-        System.out.println("Neighbouring tiles: " + Tile.getNeighbouringTiles(super.grid, super.tile));
-        System.out.println("Neighbouring detectable tiles: " + tiles);
-        System.out.println("Amount of neighbouring detectable tiles: " + tiles.size());
+    @Override
+    public void use() {
+        this.updateCounter();
     }
 }

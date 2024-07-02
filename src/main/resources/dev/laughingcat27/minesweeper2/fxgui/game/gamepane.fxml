@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import dev.laughingcat27.util.fx.controls.IntegerField?>
+<?import javafx.scene.image.ImageView?>
+<fx:root type="BorderPane"
+         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <HBox alignment="CENTER">
+            <ImageView fx:id="characterImageView" fitHeight="128" fitWidth="128" preserveRatio="true"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox fx:id="settingsPane" alignment="CENTER">
+            <HBox alignment="CENTER">
+                <IntegerField fx:id="columnsField" promptText="columns"/>
+                <IntegerField fx:id="rowsField" promptText="rows"/>
+            </HBox>
+            <Button fx:id="startButton" onAction="#onStartButtonAction" text="Start"/>
+        </VBox>
+    </center>
+</fx:root>

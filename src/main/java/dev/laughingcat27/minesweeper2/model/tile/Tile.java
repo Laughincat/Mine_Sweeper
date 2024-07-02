@@ -14,13 +14,6 @@ public class Tile {
         this.itemProperty = new SimpleObjectProperty<>();
         this.openProperty = new SimpleBooleanProperty(false);
         this.lockedProperty = new SimpleBooleanProperty(false);
-
-        // Set events
-        this.openProperty.addListener((_, _, newValue) -> {
-            if (newValue) {
-                this.itemProperty.get().use();
-            }
-        });
     }
 
     public static Map<String, Integer> getTilePosition(List<List<Tile>> grid, Tile tile) {
