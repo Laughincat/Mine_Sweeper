@@ -1,8 +1,7 @@
 package dev.laughingcat27.minesweeper2.fxgui.root;
 
 import dev.laughingcat27.minesweeper2.fxgui.board.BoardNode;
-import dev.laughingcat27.minesweeper2.fxgui.tile.TileNodeFactory;
-import dev.laughingcat27.minesweeper2.model.board.Board;
+import dev.laughingcat27.minesweeper2.model.board.SimpleBoard;
 import dev.laughingcat27.util.fx.fxmlloader.ExtendedFxmlLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,7 +17,7 @@ public class RootPane extends BorderPane {
 
     @FXML
     private void onStartGameButtonAction() {
-        BoardNode boardNode = new BoardNode(new Board(5, 3));
+        BoardNode boardNode = new BoardNode(new SimpleBoard(10, 6));
         this.setCenter(boardNode);
     }
 }

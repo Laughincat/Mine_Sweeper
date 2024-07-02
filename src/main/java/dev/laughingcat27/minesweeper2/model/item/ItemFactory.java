@@ -7,6 +7,6 @@ public class ItemFactory {
 
         double random = Math.random();
 
-        return random <= bombChance ? new BombItem() : new CounterItem();
+        return random <= bombChance ? new MineItem() : new CounterItem();
     }
 }

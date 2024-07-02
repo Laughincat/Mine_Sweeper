@@ -13,20 +13,19 @@ public class TileFactory {
         return new Tile(item);
     }
 
-    public static List<Tile> createTileRow(int length) {
+    public static List<Tile> createTileColumn(int length) {
         List<Tile> tiles = new ArrayList<>();
-        for (int x = 0; x < length; x++) {
+        for (int y = 0; y < length; y++) {
             tiles.add(createTile());
         }
         return tiles;
     }
 
-    public static List<List<Tile>> createTileBoard(int columns, int rows) {
-        List<List<Tile>> tileBoard = new ArrayList<>();
-
-        for (int y = 0; y < rows; y++) {
-            tileBoard.add(createTileRow(columns));
+    public static List<List<Tile>> createGrid(int columns, int rows) {
+        List<List<Tile>> grid = new ArrayList<>();
+        for (int x = 0; x < columns; x++) {
+            grid.add(createTileColumn(rows));
         }
-        return tileBoard;
+        return grid;
     }
 }

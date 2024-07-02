@@ -1,20 +1,30 @@
 package dev.laughingcat27.minesweeper2.model.board;
 
+import dev.laughingcat27.minesweeper2.model.item.Item;
 import dev.laughingcat27.minesweeper2.model.tile.Tile;
 import dev.laughingcat27.minesweeper2.model.tile.TileFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-public class Board {
-    private List<List<Tile>> grid;
+public abstract class Board {
+    private final List<List<Tile>> grid;
 
     public Board(int columns, int rows) {
-        this.grid = TileFactory.createTileBoard(columns, rows);
+        this.grid = TileFactory.createGrid(columns, rows);
 
-        // Whenever a tile's item gets changed, update the counters so they represent the new bomb layout
-        this.grid.forEach(row -> row.forEach(tile -> tile.getItemProperty().addListener(observable -> updateCounters())));
+        List<Tile> tiles = this.getTiles();
+
+        tiles.forEach(tile -> {
+            // Whenever a tile's item changes, update the counters so they represent the new bomb layout
+            tile.getItemProperty().addListener(_ -> this.updateCounters());
+
+            // Make every item's action fire when consumed,
+            // pass along the grid and tile, so it can do its thing.
+            Item item = tile.getItem();
+            item.getConsumedProperty().addListener(_ -> item.action(this.grid, tile));
+        });
+
     }
 
     public List<List<Tile>> getGrid() {
@@ -25,19 +35,6 @@ public class Board {
         List<Tile> tiles = new ArrayList<>();
         this.grid.forEach(tiles::addAll);
         return tiles;
-    }
-
-    public Vector<Integer> getTilePosition(Tile tile) {
-        for (List<Tile> row : this.grid) {
-            for (Tile tile1 : row) {
-                if (tile1.equals(tile)) {
-                    Vector<Integer> position = new Vector<>();
-                    position.add(row.indexOf(tile1), this.grid.indexOf(row));
-                    return position;
-                }
-            }
-        }
-        return null;
     }
 
     // Updates the bomb counters on all tiles
