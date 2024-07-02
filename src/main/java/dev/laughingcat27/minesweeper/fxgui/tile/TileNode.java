@@ -24,12 +24,11 @@ public class TileNode extends StackPane {
 
         this.tile = tile;
 
-        // Set itemNode's item
-        this.itemNode.setItem(tile.getItem());
-
         // Bind values
         this.button.visibleProperty().bind(this.tile.getOpenProperty().not());
         this.lockedImageView.visibleProperty().bind(this.tile.getLockedProperty());
+        // Set when the tile's item changes, update the itemNode
+        this.itemNode.getItemProperty().bind(tile.getItemProperty());
 
         // Set actions
         this.button.setOnAction(_ -> this.tile.open());

@@ -20,6 +20,8 @@ public class GamePane extends BorderPane {
     @FXML
     private IntegerField rowsField;
     @FXML
+    private IntegerField bombsField;
+    @FXML
     private Button startButton;
 
     static {
@@ -34,10 +36,11 @@ public class GamePane extends BorderPane {
 
     @FXML
     private void onStartButtonAction() {
-        int columns = Integer.parseInt(columnsField.getText());
-        int rows = Integer.parseInt(rowsField.getText());
+        int columns = columnsField.getInteger();
+        int rows = rowsField.getInteger();
+        int bombs = bombsField.getInteger();
 
-        Board board = new SimpleBoard(columns, rows);
+        Board board = new SimpleBoard(columns, rows, bombs);
         BoardNode boardNode = new BoardNode(board);
 
         this.setCenter(boardNode);

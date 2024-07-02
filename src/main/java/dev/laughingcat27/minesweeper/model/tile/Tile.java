@@ -1,6 +1,7 @@
 package dev.laughingcat27.minesweeper.model.tile;
 
 import dev.laughingcat27.minesweeper.model.item.Item;
+import dev.laughingcat27.minesweeper.model.item.UsableItem;
 import javafx.beans.property.*;
 
 import java.util.*;
@@ -16,6 +17,13 @@ public class Tile {
         this.itemProperty = new SimpleObjectProperty<>();
         this.openProperty = new SimpleBooleanProperty(false);
         this.lockedProperty = new SimpleBooleanProperty(false);
+
+        // Set actions
+        // I should maybe put this logic in the item class itself, it does these checks whenever it itself gets created.
+        // Items are made after the tiles anyways...
+        this.itemProperty.addListener((_, _, newItem) -> {
+            if (newItem instanceof UsableItem usableItem && !newItem.getConsumed()) usableItem.use();
+        });
     }
 
     public static Map<String, Integer> getTilePosition(List<List<Tile>> grid, Tile tile) {

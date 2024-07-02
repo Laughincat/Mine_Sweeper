@@ -21,6 +21,7 @@
                 <IntegerField fx:id="columnsField" promptText="columns"/>
                 <IntegerField fx:id="rowsField" promptText="rows"/>
             </HBox>
+            <IntegerField fx:id="bombsField" promptText="bombs"/>
             <Button fx:id="startButton" onAction="#onStartButtonAction" text="Start"/>
         </VBox>
     </center>

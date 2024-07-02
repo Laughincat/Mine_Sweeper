@@ -9,7 +9,10 @@ public abstract class UsableItem extends Item {
     public UsableItem(List<List<Tile>> grid, Tile tile) {
         super(grid, tile);
         tile.getOpenProperty().addListener((_, _, newValue) -> {
-            if (newValue) this.use();
+            if (newValue) {
+                super.setConsumed(true);
+                this.use();
+            }
         });
     }
 

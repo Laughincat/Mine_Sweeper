@@ -8,8 +8,8 @@ import java.util.List;
 public abstract class Board {
     private final List<List<Tile>> grid;
 
-    public Board(int columns, int rows) {
-        this.grid = TileFactory.createGrid(columns, rows);
+    public Board(int columns, int rows, int bombs) {
+        this.grid = TileFactory.createGrid(columns, rows, bombs);
     }
 
     public List<List<Tile>> getGrid() {

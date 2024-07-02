@@ -14,4 +14,8 @@ public class IntegerField extends TextField {
             return null;
         }));
     }
+
+    public int getInteger() {
+        return Integer.parseInt(super.getText());
+    }
 }

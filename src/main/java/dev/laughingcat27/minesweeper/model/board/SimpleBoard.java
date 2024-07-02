@@ -2,9 +2,10 @@ package dev.laughingcat27.minesweeper.model.board;
 
 public class SimpleBoard extends Board {
 
-    public SimpleBoard(int columns, int rows) {
-        super(columns, rows);
+    public SimpleBoard(int columns, int rows, int bombs) {
+        super(columns, rows, bombs);
     }
+
 
     /*
     public Vector<Integer> getTilePosition(Tile tile) {

@@ -43,8 +43,16 @@ public abstract class Item {
         return this.consumedProperty;
     }
 
+    public boolean getConsumed() {
+        return this.consumedProperty.get();
+    }
+
     public boolean getDetectable() {
         return this.detectableProperty.get();
+    }
+
+    protected void setConsumed(boolean consumed) {
+        this.consumedProperty.set(consumed);
     }
 
     protected void setDetectable(boolean detectable) {
