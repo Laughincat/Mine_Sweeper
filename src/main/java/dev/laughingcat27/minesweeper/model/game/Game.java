@@ -23,6 +23,10 @@ public class Game {
         this.boardProperty = new SimpleObjectProperty<>(board);
     }
 
+    public GameSettings getGameSettings() {
+        return this.gameSettings;
+    }
+
     public GameStats getGameStats() {
         return this.gameStats;
     }

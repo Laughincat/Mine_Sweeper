@@ -43,6 +43,8 @@ public class GamePane extends BorderPane {
     @FXML
     private IntegerField bombsField;
     @FXML
+    private IntegerField bombDamageField;
+    @FXML
     private Button startButton;
 
     // Board
@@ -77,12 +79,13 @@ public class GamePane extends BorderPane {
 
     @FXML
     private void onStartButtonAction() {
-        int columns = columnsField.getInteger();
-        int rows = rowsField.getInteger();
-        int bombs = bombsField.getInteger();
+        int columns = this.columnsField.getInteger();
+        int rows = this.rowsField.getInteger();
+        int bombs = this.bombsField.getInteger();
+        int bombDamage = this.bombDamageField.getInteger();
 
         // Create gameSettings
-        GameSettings gameSettings = new GameSettings(columns, rows, bombs);
+        GameSettings gameSettings = new GameSettings(columns, rows, bombs, bombDamage);
 
         // Create game
         Game game = new Game(gameSettings);

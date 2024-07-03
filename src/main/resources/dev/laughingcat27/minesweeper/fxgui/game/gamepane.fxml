@@ -23,10 +23,11 @@
             <StackPane fx:id="settingsPane" maxWidth="300">
                 <VBox>
                     <HBox>
-                        <IntegerField fx:id="columnsField" promptText="columns"/>
-                        <IntegerField fx:id="rowsField" promptText="rows"/>
+                        <IntegerField fx:id="columnsField" promptText="Columns"/>
+                        <IntegerField fx:id="rowsField" promptText="Rows"/>
                     </HBox>
-                    <IntegerField fx:id="bombsField" promptText="bombs"/>
+                    <IntegerField fx:id="bombsField" promptText="Bombs"/>
+                    <IntegerField fx:id="bombDamageField" promptText="Bomb damage"/>
                     <Button fx:id="startButton" onAction="#onStartButtonAction" text="Start"/>
                 </VBox>
             </StackPane>

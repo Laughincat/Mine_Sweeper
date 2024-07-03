@@ -1,5 +1,7 @@
 package dev.laughingcat27.minesweeper.model.item;
 
+import dev.laughingcat27.minesweeper.fxgui.game.GamePane;
+import dev.laughingcat27.minesweeper.model.game.Game;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
@@ -21,12 +23,14 @@ public class MineItem extends UsableItem {
 
     @Override
     public void onUsed() {
-        System.out.println("Allahu akbar");
+        Game game = super.getTile().getBoard().getGame();
+
         // Get health property
-        IntegerProperty healthProperty = super.getTile().getBoard().getGame().getGameStats().getHealthProperty();
+        IntegerProperty healthProperty = game.getGameStats().getHealthProperty();
 
         // Calculate new health
-        int newHealth = healthProperty.get() - 100;
+        int bombDamage = game.getGameSettings().getBombDamage();
+        int newHealth = healthProperty.get() - bombDamage;
 
         // Apply new health
         healthProperty.set(newHealth);
