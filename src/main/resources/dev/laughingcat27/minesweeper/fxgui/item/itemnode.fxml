@@ -8,6 +8,6 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<fx:root type="ImageView" fitHeight="128" fitWidth="128" preserveRatio="true"
+<fx:root type="ImageView" fitHeight="64" fitWidth="64" preserveRatio="true"
          xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
 </fx:root>

@@ -9,9 +9,9 @@ import java.io.IOException;
 
 public class MineSweeperApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        RootPane rootPane = new RootPane();
-        Scene scene = new Scene(rootPane, 320, 240);
+    public void start(Stage stage) {
+        Scene scene = new Scene(new RootPane(), 640, 480);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         stage.setTitle("Mine Sweeper");
         stage.setScene(scene);

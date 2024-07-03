@@ -1,0 +1,16 @@
+HBox,
+VBox {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
+
+.root {
+    -fx-font-size: 14;
+    -fx-text-fill: #ECECEC;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+#gameOverPane {
+    -fx-background-color: rgba(100, 0, 25, 0.5);
+}

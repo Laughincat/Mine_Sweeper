@@ -14,7 +14,7 @@
     <ItemNode fx:id="itemNode"/>
     <Button fx:id="button">
         <graphic>
-            <ImageView fx:id="lockedImageView" fitHeight="128" fitWidth="128" preserveRatio="true">
+            <ImageView fx:id="lockedImageView" fitHeight="64" fitWidth="64" preserveRatio="true">
                 <Image url="@Locked.png"/>
             </ImageView>
         </graphic>
