@@ -27,8 +27,13 @@ public class TileFactory {
         List<Tile> tiles = Tile.toTiles(grid);
         double bombChance = (double) bombs / tiles.size();
 
+        // Make sure the first opened tile gets populated LAST:
+
+        // The item which gets set in the first tile will instantly be used,
+        // while some items rely on a complete grid upon use!
+
         tiles.forEach(tile -> {
-            Item item = ItemFactory.createItem(grid, tile, bombChance);
+            Item item = ItemFactory.createItem(grid, bombChance);
             //if (item.getClass().isAssignableFrom(MineItem.class)) {}
             tile.setItem(item);
         });
@@ -43,12 +48,14 @@ public class TileFactory {
 
         List<Tile> tiles = Tile.toTiles(grid);
 
-        // Populate with items once a tile has been opened
+        // Populate with items the first time a tile has been opened
         ChangeListener<Boolean> listener = new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                System.out.println("Populating grid with items!");
+                // This should only fire the first time a tile gets opened, so remove the listener
                 tiles.forEach(tile -> tile.getOpenProperty().removeListener(this));
+
+                // Populate the grid
                 TileFactory.populateGridWithItems(grid, bombs);
             }
         };

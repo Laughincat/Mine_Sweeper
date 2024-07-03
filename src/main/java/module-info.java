@@ -1,7 +1,6 @@
 module dev.laughingcat27.minesweeper2 {
     requires javafx.controls;
     requires javafx.fxml;
-    requires jdk.incubator.vector;
 
     exports dev.laughingcat27.minesweeper.fxgui.application;
     opens dev.laughingcat27.minesweeper.fxgui.application to javafx.fxml;

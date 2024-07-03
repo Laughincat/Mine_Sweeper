@@ -1,7 +1,6 @@
 package dev.laughingcat27.minesweeper.model.tile;
 
 import dev.laughingcat27.minesweeper.model.item.Item;
-import dev.laughingcat27.minesweeper.model.item.UsableItem;
 import javafx.beans.property.*;
 
 import java.util.*;
@@ -19,11 +18,18 @@ public class Tile {
         this.lockedProperty = new SimpleBooleanProperty(false);
 
         // Set actions
+
+        // Whenever a new item gets set, set this tile in the item to maintain parent-child relationship
+        this.itemProperty.addListener((_, _, newItem) -> newItem.setTile(this));
+
         // I should maybe put this logic in the item class itself, it does these checks whenever it itself gets created.
         // Items are made after the tiles anyways...
+        /*
         this.itemProperty.addListener((_, _, newItem) -> {
             if (newItem instanceof UsableItem usableItem && !newItem.getConsumed()) usableItem.use();
         });
+         */
+
     }
 
     public static Map<String, Integer> getTilePosition(List<List<Tile>> grid, Tile tile) {
@@ -112,6 +118,10 @@ public class Tile {
 
     public Item getItem() {
         return this.itemProperty.get();
+    }
+
+    public boolean getOpen() {
+        return this.openProperty.get();
     }
 
     public boolean getLocked() {

@@ -10,8 +10,8 @@ import java.util.List;
 public class CounterItem extends UsableItem {
     private IntegerProperty countProperty;
 
-    public CounterItem(List<List<Tile>> grid, Tile tile) {
-        super(grid, tile);
+    public CounterItem(List<List<Tile>> grid) {
+        super(grid);
         this.countProperty = new SimpleIntegerProperty();
 
         // Bind stuff
@@ -24,12 +24,12 @@ public class CounterItem extends UsableItem {
     }
 
     private void updateCounter() {
-        List<Tile> tiles = Tile.getNeighbouringDetectableTiles(super.grid, super.tile);
+        List<Tile> tiles = Tile.getNeighbouringDetectableTiles(super.grid, super.tileProperty.get());
         this.countProperty.set(tiles.size());
     }
 
     @Override
-    public void use() {
+    public void onUsed() {
         this.updateCounter();
     }
 }

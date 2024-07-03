@@ -11,14 +11,14 @@ import java.util.List;
 
 public abstract class Item {
     protected List<List<Tile>> grid;
-    protected Tile tile;
+    protected ObjectProperty<Tile> tileProperty;
     protected ObjectProperty<Image> imageProperty;
     private BooleanProperty consumedProperty;
     private BooleanProperty detectableProperty;
 
-    public Item(List<List<Tile>> grid, Tile tile) {
+    public Item(List<List<Tile>> grid) {
         this.grid = grid;
-        this.tile = tile;
+        this.tileProperty = new SimpleObjectProperty<>();
         this.imageProperty = new SimpleObjectProperty<>();
         this.consumedProperty = new SimpleBooleanProperty(false);
         this.detectableProperty = new SimpleBooleanProperty(false);
@@ -35,6 +35,10 @@ public abstract class Item {
          */
     }
 
+    protected ObjectProperty<Tile> getTileProperty() {
+        return this.tileProperty;
+    }
+
     public ObjectProperty<Image> getImageProperty() {
         return this.imageProperty;
     }
@@ -49,6 +53,10 @@ public abstract class Item {
 
     public boolean getDetectable() {
         return this.detectableProperty.get();
+    }
+
+    public void setTile(Tile tile) {
+        this.tileProperty.set(tile);
     }
 
     protected void setConsumed(boolean consumed) {

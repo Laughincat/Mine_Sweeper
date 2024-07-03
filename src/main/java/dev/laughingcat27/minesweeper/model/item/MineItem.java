@@ -12,14 +12,14 @@ public class MineItem extends UsableItem {
         MineItem.image = new Image(String.valueOf(CounterItem.class.getResource("Mine.png")));
     }
 
-    public MineItem(List<List<Tile>> grid, Tile tile) {
-        super(grid, tile);
+    public MineItem(List<List<Tile>> grid) {
+        super(grid);
         super.setDetectable(true);
         super.imageProperty.set(MineItem.image);
     }
 
     @Override
-    public void use() {
+    public void onUsed() {
         System.out.println("Allahu akbar");
     }
 }
