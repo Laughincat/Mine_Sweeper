@@ -12,6 +12,7 @@
          xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <top>
         <HBox alignment="CENTER">
+            <Label fx:id="healthLabel"/>
             <ImageView fx:id="characterImageView" fitHeight="128" fitWidth="128" preserveRatio="true"/>
         </HBox>
     </top>

@@ -55,6 +55,10 @@ public abstract class Item {
         return this.detectableProperty.get();
     }
 
+    public Tile getTile() {
+        return this.tileProperty.get();
+    }
+
     public void setTile(Tile tile) {
         this.tileProperty.set(tile);
     }

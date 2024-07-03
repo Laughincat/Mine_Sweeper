@@ -1,4 +1,4 @@
-module dev.laughingcat27.minesweeper2 {
+module dev.laughingcat27.minesweeper {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -21,4 +21,6 @@ module dev.laughingcat27.minesweeper2 {
     opens dev.laughingcat27.minesweeper.model.tile to javafx.fxml;
     exports dev.laughingcat27.minesweeper.model.item;
     opens dev.laughingcat27.minesweeper.model.item to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.model.board;
+    opens dev.laughingcat27.minesweeper.model.board to javafx.fxml;
 }

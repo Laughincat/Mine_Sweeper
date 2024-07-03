@@ -1,5 +1,6 @@
 package dev.laughingcat27.minesweeper.model.tile;
 
+import dev.laughingcat27.minesweeper.model.board.Board;
 import dev.laughingcat27.minesweeper.model.item.Item;
 import javafx.beans.property.*;
 
@@ -8,12 +9,14 @@ import java.util.*;
 public class Tile {
     private List<List<Tile>> grid;
     private ObjectProperty<Item> itemProperty;
+    private ObjectProperty<Board> boardProperty;
     private BooleanProperty openProperty;
     private BooleanProperty lockedProperty;
 
     public Tile(List<List<Tile>> grid) {
         this.grid = grid;
         this.itemProperty = new SimpleObjectProperty<>();
+        this.boardProperty = new SimpleObjectProperty<>();
         this.openProperty = new SimpleBooleanProperty(false);
         this.lockedProperty = new SimpleBooleanProperty(false);
 
@@ -104,10 +107,6 @@ public class Tile {
         return tiles;
     }
 
-    public ObjectProperty<Item> getItemProperty() {
-        return this.itemProperty;
-    }
-
     public BooleanProperty getOpenProperty() {
         return this.openProperty;
     }
@@ -116,8 +115,12 @@ public class Tile {
         return this.lockedProperty;
     }
 
-    public Item getItem() {
-        return this.itemProperty.get();
+    public ObjectProperty<Item> getItemProperty() {
+        return this.itemProperty;
+    }
+
+    public Board getBoard() {
+        return this.boardProperty.get();
     }
 
     public boolean getOpen() {
@@ -128,12 +131,20 @@ public class Tile {
         return this.lockedProperty.get();
     }
 
+    public Item getItem() {
+        return this.itemProperty.get();
+    }
+
     public void setLocked(boolean locked) {
         this.lockedProperty.set(locked);
     }
 
     public void setItem(Item item) {
         this.itemProperty.set(item);
+    }
+
+    public void setBoard(Board board) {
+        this.boardProperty.set(board);
     }
 
     public void open() {

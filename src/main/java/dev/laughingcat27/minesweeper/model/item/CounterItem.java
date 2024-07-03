@@ -12,7 +12,7 @@ public class CounterItem extends UsableItem {
 
     public CounterItem(List<List<Tile>> grid) {
         super(grid);
-        this.countProperty = new SimpleIntegerProperty();
+        this.countProperty = new SimpleIntegerProperty(9);
 
         // Bind stuff
         List<Tile> tiles = Tile.toTiles(this.grid);

@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TileFactory {
@@ -28,11 +29,14 @@ public class TileFactory {
         List<Tile> tiles = Tile.toTiles(grid);
         tiles.remove(firstOpenedTile);
 
+        // Make sure the amount of bombs is the same as the amount of tiles
+        bombs = Math.min(bombs, tiles.size());
+
         double bombChance = (double) bombs / tiles.size();
 
         // Make sure the first opened tile gets populated LAST:
 
-        // The item which gets set in the first tile will instantly be used,
+        // The item which gets set in the first tile will automatically be used,
         // while some items rely on a complete grid upon use!
 
         // Loop through the tiles and populate them until the set amount of bombs has been placed
