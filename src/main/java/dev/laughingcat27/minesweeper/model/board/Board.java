@@ -5,6 +5,7 @@ import dev.laughingcat27.minesweeper.model.tile.Tile;
 import dev.laughingcat27.minesweeper.model.tile.TileFactory;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.layout.Pane;
 
 import java.util.List;
 
