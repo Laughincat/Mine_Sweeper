@@ -15,7 +15,11 @@ public class IntegerField extends TextField {
         }));
     }
 
-    public int getInteger() {
-        return Integer.parseInt(super.getText());
+    public Integer getInteger() {
+        try {
+            return Integer.parseInt(super.getText());
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
