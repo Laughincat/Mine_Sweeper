@@ -87,18 +87,39 @@ public class Tile {
     }
 
     public static List<Tile> getDetectableTiles(List<Tile> tiles) {
-        List<Tile> tiles1 = new ArrayList<>();
+        List<Tile> detectableTiles = new ArrayList<>();
 
         tiles.forEach(tile -> {
             if (tile.getItem().getDetectable()) {
-                tiles1.add(tile);
+                detectableTiles.add(tile);
             }
         });
-        return tiles1;
+        return detectableTiles;
     }
 
-    public static List<Tile> getNeighbouringDetectableTiles(List<List<Tile>> grid, Tile tile) {
+    public static List<Tile> getOpenTiles(List<Tile> tiles) {
+        List<Tile> openTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (tile.getOpen()) openTiles.add(tile);
+        });
+
+        return openTiles;
+    }
+
+    public static List<Tile> getDetectableNeighbours(List<List<Tile>> grid, Tile tile) {
         return Tile.getDetectableTiles(Tile.getNeighbouringTiles(grid, tile));
+    }
+
+    public static List<Tile> getLockedNeighbours(List<List<Tile>> grid, Tile tile) {
+        List<Tile> neighbours = Tile.getNeighbouringTiles(grid, tile);
+        List<Tile> lockedNeighbours = new ArrayList<>();
+
+        neighbours.forEach(neighbour -> {
+            if (neighbour.getLocked()) lockedNeighbours.add(neighbour);
+        });
+
+        return lockedNeighbours;
     }
 
     public static List<Tile> toTiles(List<List<Tile>> grid) {
@@ -151,12 +172,32 @@ public class Tile {
         if (!this.openProperty.get() && !this.lockedProperty.get()) {
             this.openProperty.set(true);
 
-            boolean neighbouringDetectableTiles = !Tile.getNeighbouringDetectableTiles(this.grid, this).isEmpty();
+            boolean neighbouringDetectableTiles = !Tile.getDetectableNeighbours(this.grid, this).isEmpty();
             boolean detectable = this.itemProperty.get().getDetectable();
 
             if (!neighbouringDetectableTiles && !detectable) {
                 Tile.getNeighbouringTiles(this.grid, this).forEach(Tile::open);
             }
+        }
+    }
+
+    public void openNeighbours() {
+        // Get neighbouring detectable tiles
+        List<Tile> detectableNeighbours = Tile.getDetectableNeighbours(this.grid, this);
+
+        int detectableNeighbourCount = detectableNeighbours.size();
+        int openDetectableNeighbourCount = Tile.getOpenTiles(detectableNeighbours).size();
+        int lockedNeighbourCount = Tile.getLockedNeighbours(this.grid, this).size();
+
+        // If enough nearby detectable tiles have been locked or opened, open nearby tiles
+        if (lockedNeighbourCount + openDetectableNeighbourCount >= detectableNeighbourCount) {
+            // Get all neighbours
+            List<Tile> neighbouringTiles = Tile.getNeighbouringTiles(this.grid, this);
+
+            // And open them
+            neighbouringTiles.forEach(Tile::open);
+        } else {
+            System.out.println("Can't open neighbours: Not enough tiles have been locked");
         }
     }
 }

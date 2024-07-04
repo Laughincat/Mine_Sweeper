@@ -24,7 +24,7 @@ public class CounterItem extends UsableItem {
     }
 
     private void updateCounter() {
-        List<Tile> tiles = Tile.getNeighbouringDetectableTiles(super.grid, super.tileProperty.get());
+        List<Tile> tiles = Tile.getDetectableNeighbours(super.grid, super.tileProperty.get());
         this.countProperty.set(tiles.size());
     }
 
