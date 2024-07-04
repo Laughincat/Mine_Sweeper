@@ -13,6 +13,6 @@ public class ItemFactory {
     public static Item createItem(List<List<Tile>> grid, double bombChance) {
         double random = Math.random();
 
-        return random <= bombChance ? new MineItem(grid) : new CounterItem(grid);
+        return random <= bombChance ? new SimpleMineItem(grid) : new CounterItem(grid);
     }
 }

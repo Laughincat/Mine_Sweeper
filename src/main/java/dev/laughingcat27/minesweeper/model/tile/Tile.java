@@ -2,6 +2,7 @@ package dev.laughingcat27.minesweeper.model.tile;
 
 import dev.laughingcat27.minesweeper.model.board.Board;
 import dev.laughingcat27.minesweeper.model.item.Item;
+import dev.laughingcat27.minesweeper.model.item.MineItem;
 import javafx.beans.property.*;
 
 import java.util.*;
@@ -120,6 +121,16 @@ public class Tile {
         });
 
         return lockedNeighbours;
+    }
+
+    public static List<Tile> getNonBombTiles(List<Tile> tiles) {
+        List<Tile> nonBombTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (!tile.getItem().getClass().isAssignableFrom(MineItem.class)) nonBombTiles.add(tile);
+        });
+
+        return nonBombTiles;
     }
 
     public static List<Tile> toTiles(List<List<Tile>> grid) {

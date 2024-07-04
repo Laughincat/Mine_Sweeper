@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 
 import java.util.List;
 
-public class MineItem extends UsableItem {
+public abstract class MineItem extends UsableItem {
     private static Image image;
 
     static {

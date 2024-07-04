@@ -27,13 +27,16 @@ public class Game {
 
         List<Tile> tiles = Tile.toTiles(board.getGrid());
 
-        // Whenever a tile gets opened, check if the unopened tile count is at most same as bomb count ,
+        // Whenever a tile gets opened, check if all non-bomb tiles are open,
         // When true, give a victory
         tiles.forEach(tile -> tile.getOpenProperty().addListener(observable -> {
-            int openTileCount = Tile.getOpenTiles(tiles).size();
-            int unOpenTileCount = tiles.size() - openTileCount;
+            List<Tile> nonBombTiles = Tile.getNonBombTiles(tiles);
 
-            if (unOpenTileCount <= this.gameSettings.getBombs()) this.gameStats.setVictory(true);
+            int nonBombCount = nonBombTiles.size();
+            int openNonBombCount = Tile.getOpenTiles(nonBombTiles).size();
+
+            // Are all non-bombs open?
+            if (openNonBombCount == nonBombCount) this.gameStats.setVictory(true);
         }));
     }
 
