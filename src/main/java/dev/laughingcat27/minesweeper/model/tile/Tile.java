@@ -197,7 +197,7 @@ public class Tile {
             // And open them
             neighbouringTiles.forEach(Tile::open);
         } else {
-            System.out.println("Can't open neighbours: Not enough tiles have been locked");
+            //System.out.println("Can't open neighbours: Not enough tiles have been locked");
         }
     }
 }
