@@ -24,17 +24,29 @@ public class TileNode extends StackPane {
 
         this.tile = tile;
 
-        // Bind values
+        // The button dissapears when the tile is open
         this.button.visibleProperty().bind(this.tile.getOpenProperty().not());
+
+        // Show the locked image as long as tile is locked
         this.lockedImageView.visibleProperty().bind(this.tile.getLockedProperty());
-        // Set when the tile's item changes, update the itemNode
+
+        // When the tile's item changes, update the itemNode
         this.itemNode.getItemProperty().bind(tile.getItemProperty());
 
-        // Set actions
+        // When the button is left clicked, open the tile
         this.button.setOnAction(_ -> this.tile.open());
+
+        // When the button is right clicked, lock the tile
         this.button.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                 tile.setLocked(!tile.getLocked());
+            }
+        });
+
+        // When the left mouse button releases the item node, try opening the neighbours
+        this.itemNode.setOnMouseReleased(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                tile.openNeighbours();
             }
         });
 
