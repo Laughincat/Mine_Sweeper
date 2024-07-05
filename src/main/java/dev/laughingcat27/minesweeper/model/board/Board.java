@@ -16,10 +16,12 @@ import java.util.List;
 
 public abstract class Board {
     private final List<List<Tile>> grid;
+    private ObjectProperty<Tile> firstOpenedTileProperty;
     private ObjectProperty<Game> gameProperty;
 
     public Board(int columns, int rows, int bombs) {
         this.grid = TileFactory.createGrid(columns, rows, bombs);
+        this.firstOpenedTileProperty = new SimpleObjectProperty<>();
         this.gameProperty = new SimpleObjectProperty<>();
 
         List<Tile> tiles = Tile.toTiles(this.grid);
@@ -29,53 +31,55 @@ public abstract class Board {
 
         Board board = this;
 
-        // Whenever the first tile gets opened, populate all the tiles with items
+        // The first time a tile gets opened, it should be set to the property
         ChangeListener<Boolean> firstTileOpenedListener = new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean b, Boolean t1) {
-                System.out.println("First tile opened, adding items");
-
-                // This should only fire the first time a tile gets opened, so remove the listener
+                // This should only fire the first time a tile gets opened,
+                // so remove the listener right away.
                 tiles.forEach(tile -> tile.getOpenProperty().removeListener(this));
 
                 // Find the opened tile
-                Tile firstOpenedTile = null;
                 for (Tile tile : tiles) {
-                    if (tile.getOpenProperty().equals(observableValue)) firstOpenedTile = tile;
+                    if (tile.getOpenProperty().equals(observableValue)) board.firstOpenedTileProperty.set(tile);
                 }
-
-                // Populate the grid
-                board.populateGridWithItems(firstOpenedTile, bombs);
             }
         };
 
         tiles.forEach(tile -> tile.getOpenProperty().addListener(firstTileOpenedListener));
 
-        // Remember the bug where you'd instantly open bombs sometimes when starting a new game?
-        // I believe it might be caused by the fact the first tile tries opening its neighbours when they have nothing in 'em,
-        // and afterwards they get filled and the item realizes its tile is already open so it uses itself.
+        // Once the first opened tile is found, populate everything
+        this.firstOpenedTileProperty.addListener(_ -> {
+            System.out.println("Woah first tile got opened guess i got to populate shit");
+            this.populateGridWithItems(bombs);
+        });
 
-        // Below is bugged: it runs BEFORE tiles get populated! that means EVERY tile is still a non-bomb tile! i fucking love this shit!
+        // Whenever a tile gets opened, check for victory
+        tiles.forEach(tile -> tile.getOpenProperty().addListener(_ -> this.updateVictory()));
 
-
-        // == FOR VICTORY! ==
-
-        // Whenever a tile gets opened, check if all non-bomb tiles are open,
-        // When true, give a victory
-        tiles.forEach(tile -> tile.getOpenProperty().addListener(observable -> {
-            List<Tile> nonBombTiles = Tile.getNonBombTiles(tiles);
-
-            //System.out.println(nonBombTiles.size());
-
-            int nonBombCount = nonBombTiles.size();
-            int openNonBombCount = Tile.getOpenTiles(nonBombTiles).size();
-
-            // Are all non-bombs open?
-            if (openNonBombCount == nonBombCount) this.getGame().getGameStats().setVictory(true);
-        }));
+        // When a tile's item changes, check for victory
+        tiles.forEach(tile -> tile.getItemProperty().addListener(_ -> this.updateVictory()));
     }
 
-    private void populateGridWithItems(Tile firstOpenedTile, int bombs) {
+    private boolean allNonBombsAreOpen() {
+        List<Tile> nonBombTiles = Tile.getNonBombTiles(Tile.toTiles(this.grid));
+
+        //System.out.println(nonBombTiles.size());
+
+        int nonBombCount = nonBombTiles.size();
+        int openNonBombCount = Tile.getOpenTiles(nonBombTiles).size();
+
+        // Are all non-bombs open?
+        return openNonBombCount == nonBombCount;
+    }
+
+    private void updateVictory() {
+        if (this.allNonBombsAreOpen()) this.getGame().getGameStats().setVictory(true);
+    }
+
+    private void populateGridWithItems(int bombs) {
+        System.out.println("Populating grid with items!");
+
         // Get list of tiles which can have a bomb
         List<Tile> tiles = Tile.toTiles(this.grid);
 
@@ -83,12 +87,13 @@ public abstract class Board {
 
         // The item which gets set in the first tile will automatically be used,
         // while some items rely on a complete grid upon use!
+        Tile firstOpenedTile = this.getFirstOpenedTile();
         tiles.remove(firstOpenedTile);
 
         double bombChance = (double) bombs / tiles.size();
 
         // Loop through the tiles and populate them until the set amount of bombs has been placed
-        while (bombs > 0) {
+        do {
             //System.out.printf("Not enough bombs placed (%d left)%n", bombs);;
             for (Tile tile : tiles) {
 
@@ -110,7 +115,7 @@ public abstract class Board {
                     if (bombs == 0) bombChance = 0;
                 }
             }
-        }
+        } while (bombs > 0);
 
         // Set the last tile's item
         Item item = ItemFactory.createItem(grid, 0);
@@ -119,6 +124,10 @@ public abstract class Board {
 
     public List<List<Tile>> getGrid() {
         return this.grid;
+    }
+
+    public Tile getFirstOpenedTile() {
+        return this.firstOpenedTileProperty.get();
     }
 
     public Game getGame() {

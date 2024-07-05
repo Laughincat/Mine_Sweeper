@@ -129,6 +129,16 @@ public class Tile {
         return lockedNeighbours;
     }
 
+    public static List<Tile> getBombTiles(List<Tile> tiles) {
+        List<Tile> bombTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (tile.getItem() instanceof MineItem) bombTiles.add(tile);
+        });
+
+        return bombTiles;
+    }
+
     public static List<Tile> getNonBombTiles(List<Tile> tiles) {
         List<Tile> nonBombTiles = new ArrayList<>();
 
