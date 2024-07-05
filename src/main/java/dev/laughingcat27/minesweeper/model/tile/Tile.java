@@ -21,10 +21,16 @@ public class Tile {
         this.openProperty = new SimpleBooleanProperty(false);
         this.lockedProperty = new SimpleBooleanProperty(false);
 
-        // Set actions
-
         // Whenever a new item gets set, set this tile in the item to maintain parent-child relationship
         this.itemProperty.addListener((_, _, newItem) -> newItem.setTile(this));
+
+        /* Whenever this tile gets opened and its neighbours aren't detectable, open them all
+        this.openProperty.addListener((_, _, open) -> {
+            if (open) {
+
+            }
+        });
+        */
 
         // I should maybe put this logic in the item class itself, it does these checks whenever it itself gets created.
         // Items are made after the tiles anyways...
@@ -127,7 +133,7 @@ public class Tile {
         List<Tile> nonBombTiles = new ArrayList<>();
 
         tiles.forEach(tile -> {
-            if (!tile.getItem().getClass().isAssignableFrom(MineItem.class)) nonBombTiles.add(tile);
+            if (!(tile.getItem() instanceof MineItem)) nonBombTiles.add(tile);
         });
 
         return nonBombTiles;
@@ -167,6 +173,10 @@ public class Tile {
         return this.itemProperty.get();
     }
 
+    private void setOpen(boolean open) {
+        this.openProperty.set(open);
+    }
+
     public void setLocked(boolean locked) {
         this.lockedProperty.set(locked);
     }
@@ -180,15 +190,21 @@ public class Tile {
     }
 
     public void open() {
-        if (!this.openProperty.get() && !this.lockedProperty.get()) {
-            this.openProperty.set(true);
+        if (!(this.getOpen() || this.getLocked())) {
+            this.setOpen(true);
 
+            this.openNeighbours();
+
+            /*
             boolean neighbouringDetectableTiles = !Tile.getDetectableNeighbours(this.grid, this).isEmpty();
-            boolean detectable = this.itemProperty.get().getDetectable();
+            boolean detectable = this.getItem().getDetectable();
 
-            if (!neighbouringDetectableTiles && !detectable) {
+            if (!(neighbouringDetectableTiles || detectable)) {
+                //System.out.println("Opening neighbours!");
                 Tile.getNeighbouringTiles(this.grid, this).forEach(Tile::open);
             }
+            */
+
         }
     }
 
@@ -200,8 +216,10 @@ public class Tile {
         int openDetectableNeighbourCount = Tile.getOpenTiles(detectableNeighbours).size();
         int lockedNeighbourCount = Tile.getLockedNeighbours(this.grid, this).size();
 
-        // If enough nearby detectable tiles have been locked or opened, open nearby tiles
-        if (lockedNeighbourCount + openDetectableNeighbourCount >= detectableNeighbourCount) {
+        boolean enoughDetectablesIdentified = lockedNeighbourCount + openDetectableNeighbourCount >= detectableNeighbourCount;
+
+        // If enough nearby detectable tiles have been identified, open nearby tiles
+        if (enoughDetectablesIdentified && !this.getItem().getDetectable()) {
             // Get all neighbours
             List<Tile> neighbouringTiles = Tile.getNeighbouringTiles(this.grid, this);
 

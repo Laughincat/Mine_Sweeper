@@ -27,10 +27,14 @@ public abstract class Board {
         // Maintain parent-child relationship with each tile
         tiles.forEach(tile -> tile.setBoard(this));
 
+        Board board = this;
+
         // Whenever the first tile gets opened, populate all the tiles with items
-        ChangeListener<Boolean> listener = new ChangeListener<>() {
+        ChangeListener<Boolean> firstTileOpenedListener = new ChangeListener<>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean b, Boolean t1) {
+                System.out.println("First tile opened, adding items");
+
                 // This should only fire the first time a tile gets opened, so remove the listener
                 tiles.forEach(tile -> tile.getOpenProperty().removeListener(this));
 
@@ -41,40 +45,64 @@ public abstract class Board {
                 }
 
                 // Populate the grid
-                this.populateGridWithItems(firstOpenedTile, bombs);
+                board.populateGridWithItems(firstOpenedTile, bombs);
             }
         };
 
-        tiles.forEach(tile -> tile.getOpenProperty().addListener(listener));
+        tiles.forEach(tile -> tile.getOpenProperty().addListener(firstTileOpenedListener));
+
+        // Remember the bug where you'd instantly open bombs sometimes when starting a new game?
+        // I believe it might be caused by the fact the first tile tries opening its neighbours when they have nothing in 'em,
+        // and afterwards they get filled and the item realizes its tile is already open so it uses itself.
+
+        // Below is bugged: it runs BEFORE tiles get populated! that means EVERY tile is still a non-bomb tile! i fucking love this shit!
+
+
+        // == FOR VICTORY! ==
+
+        // Whenever a tile gets opened, check if all non-bomb tiles are open,
+        // When true, give a victory
+        tiles.forEach(tile -> tile.getOpenProperty().addListener(observable -> {
+            List<Tile> nonBombTiles = Tile.getNonBombTiles(tiles);
+
+            //System.out.println(nonBombTiles.size());
+
+            int nonBombCount = nonBombTiles.size();
+            int openNonBombCount = Tile.getOpenTiles(nonBombTiles).size();
+
+            // Are all non-bombs open?
+            if (openNonBombCount == nonBombCount) this.getGame().getGameStats().setVictory(true);
+        }));
     }
 
     private void populateGridWithItems(Tile firstOpenedTile, int bombs) {
         // Get list of tiles which can have a bomb
         List<Tile> tiles = Tile.toTiles(this.grid);
-        tiles.remove(firstOpenedTile);
-
-        // Make sure the amount of bombs is the same as the amount of tiles
-        bombs = Math.min(bombs, tiles.size());
-
-        double bombChance = (double) bombs / tiles.size();
 
         // Make sure the first opened tile gets populated LAST:
 
         // The item which gets set in the first tile will automatically be used,
         // while some items rely on a complete grid upon use!
+        tiles.remove(firstOpenedTile);
+
+        double bombChance = (double) bombs / tiles.size();
 
         // Loop through the tiles and populate them until the set amount of bombs has been placed
         while (bombs > 0) {
+            //System.out.printf("Not enough bombs placed (%d left)%n", bombs);;
             for (Tile tile : tiles) {
 
                 // In the future maybe we'll want set amounts of other items, too.
                 // This function will need some reworking to keep that into account but for now this will do.
 
-                // If tile contains a bomb, do not overwrite its item
-                if (tile.getItem() == null || tile.getItem() instanceof Item item && !item.getClass().isAssignableFrom(MineItem.class)) {
+                // If tile contains nothing or any item but a bomb, add a bomb
+                if (tile.getItem() == null || !(tile.getItem() instanceof MineItem)) {
                     Item newItem = ItemFactory.createItem(grid, bombChance);
 
-                    if (newItem.getClass().isAssignableFrom(MineItem.class)) bombs--;
+                    //System.out.println(newItem.getClass());
+                    if (tile.getItem() != null) System.out.println("overwriting " + tile.getItem());
+
+                    if (newItem instanceof MineItem) bombs--;
 
                     tile.setItem(newItem);
 

@@ -13,14 +13,12 @@ public abstract class Item {
     protected List<List<Tile>> grid;
     protected ObjectProperty<Tile> tileProperty;
     protected ObjectProperty<Image> imageProperty;
-    private BooleanProperty consumedProperty;
     private BooleanProperty detectableProperty;
 
     public Item(List<List<Tile>> grid) {
         this.grid = grid;
         this.tileProperty = new SimpleObjectProperty<>();
         this.imageProperty = new SimpleObjectProperty<>();
-        this.consumedProperty = new SimpleBooleanProperty(false);
         this.detectableProperty = new SimpleBooleanProperty(false);
 
         // Bind events
@@ -43,14 +41,6 @@ public abstract class Item {
         return this.imageProperty;
     }
 
-    public BooleanProperty getConsumedProperty() {
-        return this.consumedProperty;
-    }
-
-    public boolean getConsumed() {
-        return this.consumedProperty.get();
-    }
-
     public boolean getDetectable() {
         return this.detectableProperty.get();
     }
@@ -61,10 +51,6 @@ public abstract class Item {
 
     public void setTile(Tile tile) {
         this.tileProperty.set(tile);
-    }
-
-    protected void setConsumed(boolean consumed) {
-        this.consumedProperty.set(consumed);
     }
 
     protected void setDetectable(boolean detectable) {

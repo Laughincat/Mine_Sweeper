@@ -16,6 +16,7 @@ public class CounterItem extends UsableItem {
 
         // Bind stuff
         List<Tile> tiles = Tile.toTiles(this.grid);
+
         //tiles.forEach(tile1 -> tile1.getItemProperty().addListener(_ -> this.updateCounter()));
         this.countProperty.addListener((_, _, newValue) -> {
             Image image = new Image(String.valueOf(CounterItem.class.getResource(newValue.toString() + ".png")));

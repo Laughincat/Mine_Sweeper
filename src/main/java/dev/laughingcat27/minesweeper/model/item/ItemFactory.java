@@ -6,13 +6,11 @@ import java.util.List;
 
 public class ItemFactory {
 
-    public static boolean isMine(Item item) {
-        return item.getClass().isAssignableFrom(MineItem.class);
-    }
-
     public static Item createItem(List<List<Tile>> grid, double bombChance) {
         double random = Math.random();
 
-        return random <= bombChance ? new SimpleMineItem(grid) : new CounterItem(grid);
+        boolean makeBomb = random <= bombChance;
+
+        return makeBomb ? new SimpleMineItem(grid) : new CounterItem(grid);
     }
 }

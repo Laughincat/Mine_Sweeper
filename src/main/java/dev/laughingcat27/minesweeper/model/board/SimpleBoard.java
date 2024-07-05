@@ -6,6 +6,7 @@ public class SimpleBoard extends Board {
         super(columns, rows, bombs);
     }
 
+    // Wtf is this code doing here?
 
     /*
     public Vector<Integer> getTilePosition(Tile tile) {

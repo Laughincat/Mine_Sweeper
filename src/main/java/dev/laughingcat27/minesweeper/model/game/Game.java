@@ -24,20 +24,6 @@ public class Game {
         board.setGame(this);
 
         this.boardProperty = new SimpleObjectProperty<>(board);
-
-        List<Tile> tiles = Tile.toTiles(board.getGrid());
-
-        // Whenever a tile gets opened, check if all non-bomb tiles are open,
-        // When true, give a victory
-        tiles.forEach(tile -> tile.getOpenProperty().addListener(observable -> {
-            List<Tile> nonBombTiles = Tile.getNonBombTiles(tiles);
-
-            int nonBombCount = nonBombTiles.size();
-            int openNonBombCount = Tile.getOpenTiles(nonBombTiles).size();
-
-            // Are all non-bombs open?
-            if (openNonBombCount == nonBombCount) this.gameStats.setVictory(true);
-        }));
     }
 
     public GameSettings getGameSettings() {
@@ -50,5 +36,9 @@ public class Game {
 
     public ObjectProperty<Board> getBoardProperty() {
         return this.boardProperty;
+    }
+
+    public Board getBoard() {
+        return this.boardProperty.get();
     }
 }

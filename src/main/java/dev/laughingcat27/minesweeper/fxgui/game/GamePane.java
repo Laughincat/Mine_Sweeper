@@ -91,7 +91,7 @@ public class GamePane extends BorderPane {
         Game game = new Game(gameSettings);
 
         // Set the new board in the board pane
-        this.boardPane.setBoard(game.getBoardProperty().get());
+        this.boardPane.setBoard(game.getBoard());
 
         // Display board
         this.boardPane.setVisible(true);
