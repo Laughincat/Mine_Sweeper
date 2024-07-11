@@ -8,6 +8,8 @@ public class SimpleBoard extends Board {
 
     // Wtf is this code doing here?
 
+    // Oh wait this used to be the first board class but then it got renamed and another abstract Board class was made
+
     /*
     public Vector<Integer> getTilePosition(Tile tile) {
         for (List<Tile> row : this.grid) {

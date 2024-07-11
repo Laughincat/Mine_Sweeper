@@ -25,7 +25,7 @@ public abstract class UsableItem extends Item {
 
         // Whenever this item gets put in a new tile, and the tile is already open, make sure this item gets used!
         super.tileProperty.addListener((_, _, newTile) -> {
-            if (newTile.getOpen()) {
+            if (newTile.isOpen()) {
                 System.out.println("Item is added to an already open tile, using itself...");
                 this.use();
             }

@@ -10,13 +10,11 @@ import javafx.scene.image.Image;
 import java.util.List;
 
 public abstract class Item {
-    protected List<List<Tile>> grid;
     protected ObjectProperty<Tile> tileProperty;
     protected ObjectProperty<Image> imageProperty;
     private BooleanProperty detectableProperty;
 
     public Item(List<List<Tile>> grid) {
-        this.grid = grid;
         this.tileProperty = new SimpleObjectProperty<>();
         this.imageProperty = new SimpleObjectProperty<>();
         this.detectableProperty = new SimpleBooleanProperty(false);
@@ -51,6 +49,10 @@ public abstract class Item {
 
     public void setTile(Tile tile) {
         this.tileProperty.set(tile);
+    }
+
+    protected void setImage(Image image) {
+        this.imageProperty.set(image);
     }
 
     protected void setDetectable(boolean detectable) {

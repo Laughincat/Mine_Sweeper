@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.List;
 
-public class Game {
+public abstract class Game {
     private GameSettings gameSettings;
     private GameStats gameStats;
     private ObjectProperty<Board> boardProperty;

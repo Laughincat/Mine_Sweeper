@@ -11,6 +11,16 @@ VBox {
     -fx-wrap-text: true;
 }
 
-#gameOverPane {
+GameOverPane {
     -fx-background-color: rgba(100, 0, 25, 0.5);
 }
+
+GameTopBar {
+    -fx-background-color: white;
+}
+
+#tileButton {
+    -fx-padding: 0;
+    -fx-background-radius: 0;
+}
+

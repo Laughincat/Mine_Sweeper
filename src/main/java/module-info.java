@@ -2,6 +2,8 @@ module dev.laughingcat27.minesweeper {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires org.jetbrains.annotations;
+    requires java.logging;
 
     exports dev.laughingcat27.minesweeper.fxgui.application;
     opens dev.laughingcat27.minesweeper.fxgui.application to javafx.fxml;
@@ -24,4 +26,8 @@ module dev.laughingcat27.minesweeper {
     opens dev.laughingcat27.minesweeper.model.item to javafx.fxml;
     exports dev.laughingcat27.minesweeper.model.board;
     opens dev.laughingcat27.minesweeper.model.board to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.model.game;
+    opens dev.laughingcat27.minesweeper.model.game to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.model.item.itemfactory;
+    opens dev.laughingcat27.minesweeper.model.item.itemfactory to javafx.fxml;
 }

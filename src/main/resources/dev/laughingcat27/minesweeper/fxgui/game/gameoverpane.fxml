@@ -11,6 +11,7 @@
     <VBox>
         <Label fx:id="gameOverLabel" text="Game over"/>
         <Label fx:id="gameOverDescriptionLabel" text="You suck"/>
-        <Button fx:id="continueButton" text="Ok"/>
+        <Button fx:id="retryButton" text="Respawn"/>
+        <Button fx:id="quitButton" text="Rage quit"/>
     </VBox>
 </fx:root>

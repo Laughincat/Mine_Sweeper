@@ -2,7 +2,7 @@ package dev.laughingcat27.minesweeper.model.board;
 
 import dev.laughingcat27.minesweeper.model.game.Game;
 import dev.laughingcat27.minesweeper.model.item.Item;
-import dev.laughingcat27.minesweeper.model.item.ItemFactory;
+import dev.laughingcat27.minesweeper.model.item.itemfactory.ItemFactory;
 import dev.laughingcat27.minesweeper.model.item.MineItem;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
 import dev.laughingcat27.minesweeper.model.tile.TileFactory;
@@ -10,7 +10,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.layout.Pane;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public abstract class Board {
 
         Board board = this;
 
-        // The first time a tile gets opened, it should be set to the property
+        // The first time a tile gets opened, it should be set to the firstOpenedTile property
         ChangeListener<Boolean> firstTileOpenedListener = new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean b, Boolean t1) {
@@ -49,10 +48,7 @@ public abstract class Board {
         tiles.forEach(tile -> tile.getOpenProperty().addListener(firstTileOpenedListener));
 
         // Once the first opened tile is found, populate everything
-        this.firstOpenedTileProperty.addListener(_ -> {
-            System.out.println("Woah first tile got opened guess i got to populate shit");
-            this.populateGridWithItems(bombs);
-        });
+        this.firstOpenedTileProperty.addListener(_ -> this.populateGridWithItems(bombs));
 
         // Whenever a tile gets opened, check for victory
         tiles.forEach(tile -> tile.getOpenProperty().addListener(_ -> this.updateVictory()));

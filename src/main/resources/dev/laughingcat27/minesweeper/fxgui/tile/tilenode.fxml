@@ -9,14 +9,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import dev.laughingcat27.minesweeper.fxgui.item.ItemNode?>
+<?import dev.laughingcat27.util.fx.controls.SquareImageView?>
 <fx:root type="StackPane"
          xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <ItemNode fx:id="itemNode"/>
-    <Button fx:id="button">
+    <Button fx:id="tileButton">
         <graphic>
-            <ImageView fx:id="lockedImageView" fitHeight="64" fitWidth="64" preserveRatio="true">
+            <SquareImageView fx:id="lockedImageView">
                 <Image url="@Locked.png"/>
-            </ImageView>
+            </SquareImageView>
         </graphic>
     </Button>
 </fx:root>

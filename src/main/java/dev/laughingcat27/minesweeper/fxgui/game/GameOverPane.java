@@ -5,17 +5,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
-import java.util.Stack;
-
 public class GameOverPane extends StackPane {
     @FXML
-    private Button continueButton;
+    private Button retryButton;
+    @FXML
+    private Button quitButton;
 
     public GameOverPane() {
         new ExtendedFxmlLoader().loadCustomObject(this, GameOverPane.class);
     }
 
-    public Button getContinueButton() {
-        return this.continueButton;
+    public Button getRetryButton() {
+        return this.retryButton;
+    }
+
+    public Button getQuitButton() {
+        return this.quitButton;
     }
 }
