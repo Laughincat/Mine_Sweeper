@@ -131,6 +131,16 @@ public class Tile {
         return lockedTiles;
     }
 
+    public static List<Tile> getIdentifiedTiles(List<Tile> tiles) {
+        List<Tile> identifiedTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (tile.isLocked() || tile.getItem() instanceof MineItem && tile.isOpen()) identifiedTiles.add(tile);
+        });
+
+        return identifiedTiles;
+    }
+
     public static List<Tile> getClosedNeighbours(List<List<Tile>> grid, Tile tile) {
         List<Tile> neighbours = Tile.getNeighbouringTiles(grid, tile);
         List<Tile> closedNeighbours = new ArrayList<>();
@@ -178,9 +188,9 @@ public class Tile {
         int actualBombCount = Tile.getBombTiles(tiles).size();
 
         int bombCount = populated ? actualBombCount : settingsBombCount;
-        int lockedCount = Tile.getLockedTiles(tiles).size();
+        int identifiedCount = Tile.getIdentifiedTiles(tiles).size();
 
-        return bombCount - lockedCount;
+        return bombCount - identifiedCount;
     }
 
     public static List<Tile> toTiles(List<List<Tile>> grid) {

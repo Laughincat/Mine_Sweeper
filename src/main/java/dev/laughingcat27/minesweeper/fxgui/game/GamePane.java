@@ -6,6 +6,7 @@ import dev.laughingcat27.minesweeper.model.game.GameSettings;
 import dev.laughingcat27.minesweeper.model.game.SimpleGame;
 import dev.laughingcat27.minesweeper.model.item.MineItem;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
+import dev.laughingcat27.util.fx.clip.AudioClipFactory;
 import dev.laughingcat27.util.fx.fxmlloader.ExtendedFxmlLoader;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -18,10 +19,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
 public class GamePane extends BorderPane {
+
     @FXML
     private GameTopBar gameTopBar;
     @FXML
@@ -103,20 +106,12 @@ public class GamePane extends BorderPane {
     }
 
     private void onGameOver() {
-        // Play death audio
-        try {
-            File file = new File(new URI(Objects.requireNonNull(GamePane.class.getResource("Death.wav")).toString()));
+        // Play victory audio
+        Clip clip = AudioClipFactory.createClip(GamePane.class.getResource("Death.wav"));
+        clip.start();
 
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-
-            Clip clip = AudioSystem.getClip();
-
-            clip.open(audioInputStream);
-
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        // End clip when new game starts
+        this.gameProperty.addListener(_ -> clip.close());
 
         // Display game over screen
         this.gameOverPane.setVisible(true);
@@ -124,22 +119,11 @@ public class GamePane extends BorderPane {
 
     private void onVictory() {
         // Play victory audio
-        try {
-            File file = new File(new URI(Objects.requireNonNull(GamePane.class.getResource("Victory.wav")).toString()));
+        Clip clip = AudioClipFactory.createClip(GamePane.class.getResource("Victory.wav"));
+        clip.start();
 
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-
-            Clip clip = AudioSystem.getClip();
-
-            clip.open(audioInputStream);
-
-            clip.start();
-
-            // End clip when new game starts
-            this.gameProperty.addListener(_ -> clip.close());
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        // End clip when new game starts
+        this.gameProperty.addListener(_ -> clip.close());
 
         // Flag all left-over bombs
         Game game = this.getGame();

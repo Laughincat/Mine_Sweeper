@@ -27,11 +27,8 @@ public class OpenerMineItem extends MineItem {
         Tile tile = super.getTile();
         List<List<Tile>> grid = tile.getBoard().getGrid();
 
-
         // Get neighbours
         List<Tile> closedNeighbours = Tile.getClosedNeighbours(grid, tile);
-
-        System.out.println(closedNeighbours);
 
         int min = Math.min(1, closedNeighbours.size());
         int max = closedNeighbours.size();
@@ -39,14 +36,9 @@ public class OpenerMineItem extends MineItem {
         int tilesToOpen = MathLib.random(min, max);
         int openedTiles = 0;
 
-        System.out.println("Min: " + min);
-        System.out.println("Max: " + max);
-        System.out.println("Tiles to open: " + tilesToOpen);
-
-        while (!(openedTiles == tilesToOpen)) {
-            // Refresh the list to stay up-to-date after a tile has been opened
-            closedNeighbours = Tile.getClosedNeighbours(grid, tile);
-
+        // The second condition is there in case this opens ANOTHER troll:
+        // that troll might open tiles around this one, in which case there will be less closed neighbours than anticipated
+        while (openedTiles < tilesToOpen && !closedNeighbours.isEmpty()) {
             // Get random tile
             int index = MathLib.random(0, closedNeighbours.size() - 1);
             Tile selectedTile = closedNeighbours.get(index);
@@ -55,7 +47,8 @@ public class OpenerMineItem extends MineItem {
             selectedTile.setLocked(false);
             selectedTile.open();
 
-            openedTiles++;
+            // Refresh the list to stay up-to-date after a tile has been opened
+            closedNeighbours = Tile.getClosedNeighbours(grid, tile);
         }
     }
 }

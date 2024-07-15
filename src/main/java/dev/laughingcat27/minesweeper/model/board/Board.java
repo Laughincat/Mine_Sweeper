@@ -49,29 +49,9 @@ public abstract class Board {
 
         // Once the first opened tile is found, populate everything
         this.firstOpenedTileProperty.addListener(_ -> this.populateGridWithItems(bombs));
-
-        // Whenever a tile gets opened, check for victory
-        tiles.forEach(tile -> tile.getOpenProperty().addListener(_ -> this.updateVictory()));
-
-        // When a tile's item changes, check for victory
-        tiles.forEach(tile -> tile.getItemProperty().addListener(_ -> this.updateVictory()));
     }
 
-    private boolean allNonBombsAreOpen() {
-        List<Tile> nonBombTiles = Tile.getNonBombTiles(Tile.toTiles(this.grid));
-
-        //System.out.println(nonBombTiles.size());
-
-        int nonBombCount = nonBombTiles.size();
-        int openNonBombCount = Tile.getOpenTiles(nonBombTiles).size();
-
-        // Are all non-bombs open?
-        return openNonBombCount == nonBombCount;
-    }
-
-    private void updateVictory() {
-        if (this.allNonBombsAreOpen()) this.getGame().getGameStats().setVictory(true);
-    }
+    protected abstract void checkForVictory();
 
     private void populateGridWithItems(int bombs) {
         System.out.println("Populating grid with items!");

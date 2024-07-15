@@ -59,18 +59,16 @@ public class GameTopBar extends StackPane {
         int bombs = game.getGameSettings().getBombs();
 
         this.healthLabel.textProperty().bind(Bindings.concat("Health: ", healthBinding));
-        tiles.forEach(tile -> {tile.getLockedProperty().addListener(_ -> this.updateFlags());});
+        tiles.forEach(tile -> {
+            tile.getLockedProperty().addListener(_ -> this.updateFlags());
+            tile.getOpenProperty().addListener(_ -> this.updateFlags());
+        });
         this.flagsLabel.setText(String.valueOf(bombs));
         this.characterImageView.setImage(GameTopBar.neutralImage);
 
         gameStats.getGameOverProperty().addListener((_, _, gameOver) -> {
             this.characterImageView.setImage(gameOver ? GameTopBar.deadImage : GameTopBar.neutralImage);
         });
-    }
-
-    public void setGameActive(boolean active) {
-        this.healthLabel.setVisible(active);
-        this.quitButton.setVisible(active);
     }
 
     private void updateFlags() {

@@ -1,9 +1,6 @@
 package dev.laughingcat27.minesweeper.model.game;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 
 public class GameStats {
     private BooleanProperty victoryProperty;
@@ -23,16 +20,14 @@ public class GameStats {
         // When victory print it out lol
         this.victoryProperty.addListener((_, _, victory) -> {
             if (victory) {
-                System.out.println("== PLAYER BEAT THE GAME! ==");
-                this.printStats();
+                this.printStats("== PLAYER BEAT THE GAME! ==");
             }
         });
 
         // When player loses print it out
         this.gameOverProperty.addListener((_, _, gameOver) -> {
             if (gameOver) {
-                System.out.println("!! PLAYER LOST LMAO !!");
-                this.printStats();
+                this.printStats("!! PLAYER LOST LMAO !!");
             }
         });
     }
@@ -75,5 +70,10 @@ public class GameStats {
 
     private void printStats() {
 
+    }
+
+    private void printStats(Object object) {
+        System.out.println(object);
+        this.printStats();
     }
 }
