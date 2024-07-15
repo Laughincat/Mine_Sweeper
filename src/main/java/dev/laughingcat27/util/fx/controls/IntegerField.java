@@ -15,10 +15,16 @@ public class IntegerField extends TextField {
         }));
     }
 
+    public int getInt() throws NumberFormatException {
+        return Integer.parseInt(super.getText());
+    }
+
     public Integer getInteger() {
         try {
             return Integer.parseInt(super.getText());
         } catch (NumberFormatException e) {
+            // When nothing is inputted, the parseInt will shit its pants,
+            // so this can return null to let the caller know the field is empty
             return null;
         }
     }

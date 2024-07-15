@@ -10,29 +10,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import dev.laughingcat27.minesweeper.fxgui.game.GameOverPane?>
 <?import dev.laughingcat27.minesweeper.fxgui.board.BoardPane?>
+<?import dev.laughingcat27.minesweeper.fxgui.game.GameTopBar?>
+<?import dev.laughingcat27.minesweeper.fxgui.game.GameSettingsPane?>
 <fx:root type="BorderPane"
          xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <top>
-        <HBox>
-            <Label fx:id="healthLabel"/>
-            <ImageView fx:id="characterImageView" fitHeight="128" fitWidth="128" preserveRatio="true"/>
-        </HBox>
+        <GameTopBar fx:id="gameTopBar"/>
     </top>
     <center>
-        <StackPane>
-            <StackPane fx:id="settingsPane" maxWidth="300">
-                <VBox>
-                    <HBox>
-                        <IntegerField fx:id="columnsField" promptText="Columns"/>
-                        <IntegerField fx:id="rowsField" promptText="Rows"/>
-                    </HBox>
-                    <IntegerField fx:id="bombsField" promptText="Bombs"/>
-                    <IntegerField fx:id="bombDamageField" promptText="Bomb damage"/>
-                    <Button fx:id="startButton" onAction="#onStartButtonAction" text="Start"/>
-                </VBox>
-            </StackPane>
-            <BoardPane fx:id="boardPane" visible="false"/>
+        <BoardPane fx:id="boardPane">
             <GameOverPane fx:id="gameOverPane" visible="false"/>
-        </StackPane>
+        </BoardPane>
+        <GameSettingsPane fx:id="gameSettingsPane"/>
     </center>
 </fx:root>

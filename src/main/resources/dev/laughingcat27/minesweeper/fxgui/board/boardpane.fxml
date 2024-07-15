@@ -6,7 +6,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="ScrollPane" fitToWidth="true"
-        xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <GridPane fx:id="gridPane" alignment="CENTER"/>
+<?import dev.laughingcat27.minesweeper.fxgui.game.GameOverPane?>
+<fx:root type="StackPane"
+         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <ScrollPane fitToWidth="true" fitToHeight="true">
+        <GridPane fx:id="gridPane" alignment="CENTER"/>
+    </ScrollPane>
 </fx:root>

@@ -9,7 +9,7 @@ public class GameSettings {
     public GameSettings(int columns, int rows, int bombs, int bombDamage) {
         this.columns = columns;
         this.rows = rows;
-        this.bombs = bombs;
+        this.bombs = Math.min(bombs, columns * rows - 1);
         this.bombDamage = bombDamage;
     }
 

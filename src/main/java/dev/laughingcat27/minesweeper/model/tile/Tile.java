@@ -2,6 +2,7 @@ package dev.laughingcat27.minesweeper.model.tile;
 
 import dev.laughingcat27.minesweeper.model.board.Board;
 import dev.laughingcat27.minesweeper.model.item.Item;
+import dev.laughingcat27.minesweeper.model.item.MineItem;
 import javafx.beans.property.*;
 
 import java.util.*;
@@ -20,10 +21,16 @@ public class Tile {
         this.openProperty = new SimpleBooleanProperty(false);
         this.lockedProperty = new SimpleBooleanProperty(false);
 
-        // Set actions
-
         // Whenever a new item gets set, set this tile in the item to maintain parent-child relationship
         this.itemProperty.addListener((_, _, newItem) -> newItem.setTile(this));
+
+        /* Whenever this tile gets opened and its neighbours aren't detectable, open them all
+        this.openProperty.addListener((_, _, open) -> {
+            if (open) {
+
+            }
+        });
+        */
 
         // I should maybe put this logic in the item class itself, it does these checks whenever it itself gets created.
         // Items are made after the tiles anyways...
@@ -33,6 +40,13 @@ public class Tile {
         });
          */
 
+    }
+
+    public static boolean isPopulated(List<Tile> tiles) {
+        for (Tile tile : tiles) {
+            if (tile.getItem() == null) return false;
+        }
+        return true;
     }
 
     public static Map<String, Integer> getTilePosition(List<List<Tile>> grid, Tile tile) {
@@ -101,10 +115,41 @@ public class Tile {
         List<Tile> openTiles = new ArrayList<>();
 
         tiles.forEach(tile -> {
-            if (tile.getOpen()) openTiles.add(tile);
+            if (tile.isOpen()) openTiles.add(tile);
         });
 
         return openTiles;
+    }
+
+    public static List<Tile> getLockedTiles(List<Tile> tiles) {
+        List<Tile> lockedTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (tile.isLocked()) lockedTiles.add(tile);
+        });
+
+        return lockedTiles;
+    }
+
+    public static List<Tile> getIdentifiedTiles(List<Tile> tiles) {
+        List<Tile> identifiedTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (tile.isLocked() || tile.getItem() instanceof MineItem && tile.isOpen()) identifiedTiles.add(tile);
+        });
+
+        return identifiedTiles;
+    }
+
+    public static List<Tile> getClosedNeighbours(List<List<Tile>> grid, Tile tile) {
+        List<Tile> neighbours = Tile.getNeighbouringTiles(grid, tile);
+        List<Tile> closedNeighbours = new ArrayList<>();
+
+        neighbours.forEach(neighbourTile -> {
+            if (!neighbourTile.isOpen()) closedNeighbours.add(neighbourTile);
+        });
+
+        return closedNeighbours;
     }
 
     public static List<Tile> getDetectableNeighbours(List<List<Tile>> grid, Tile tile) {
@@ -113,13 +158,39 @@ public class Tile {
 
     public static List<Tile> getLockedNeighbours(List<List<Tile>> grid, Tile tile) {
         List<Tile> neighbours = Tile.getNeighbouringTiles(grid, tile);
-        List<Tile> lockedNeighbours = new ArrayList<>();
 
-        neighbours.forEach(neighbour -> {
-            if (neighbour.getLocked()) lockedNeighbours.add(neighbour);
+        return Tile.getLockedTiles(neighbours);
+    }
+
+    public static List<Tile> getBombTiles(List<Tile> tiles) {
+        List<Tile> bombTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (tile.getItem() instanceof MineItem) bombTiles.add(tile);
         });
 
-        return lockedNeighbours;
+        return bombTiles;
+    }
+
+    public static List<Tile> getNonBombTiles(List<Tile> tiles) {
+        List<Tile> nonBombTiles = new ArrayList<>();
+
+        tiles.forEach(tile -> {
+            if (!(tile.getItem() instanceof MineItem)) nonBombTiles.add(tile);
+        });
+
+        return nonBombTiles;
+    }
+
+    public static int getFlagsLeft(List<Tile> tiles) {
+        boolean populated = Tile.isPopulated(tiles);
+        int settingsBombCount = tiles.getFirst().getBoard().getGame().getGameSettings().getBombs();
+        int actualBombCount = Tile.getBombTiles(tiles).size();
+
+        int bombCount = populated ? actualBombCount : settingsBombCount;
+        int identifiedCount = Tile.getIdentifiedTiles(tiles).size();
+
+        return bombCount - identifiedCount;
     }
 
     public static List<Tile> toTiles(List<List<Tile>> grid) {
@@ -144,16 +215,20 @@ public class Tile {
         return this.boardProperty.get();
     }
 
-    public boolean getOpen() {
+    public boolean isOpen() {
         return this.openProperty.get();
     }
 
-    public boolean getLocked() {
+    public boolean isLocked() {
         return this.lockedProperty.get();
     }
 
     public Item getItem() {
         return this.itemProperty.get();
+    }
+
+    private void setOpen(boolean open) {
+        this.openProperty.set(open);
     }
 
     public void setLocked(boolean locked) {
@@ -168,14 +243,26 @@ public class Tile {
         this.boardProperty.set(board);
     }
 
+    public void toggleLock() {
+        if (this.isLocked()) this.setLocked(false);
+        else {
+            List<Tile> tiles = Tile.toTiles(this.grid);
+            int flagsLeft = Tile.getFlagsLeft(tiles);
+
+            if (flagsLeft > 0) this.setLocked(true);
+        }
+    }
+
     public void open() {
-        if (!this.openProperty.get() && !this.lockedProperty.get()) {
-            this.openProperty.set(true);
+        if (!(this.isOpen() || this.isLocked())) {
+            this.setOpen(true);
 
+            // Open all neighbours if those and this aren't detectable.
             boolean neighbouringDetectableTiles = !Tile.getDetectableNeighbours(this.grid, this).isEmpty();
-            boolean detectable = this.itemProperty.get().getDetectable();
+            boolean detectable = this.getItem().getDetectable();
 
-            if (!neighbouringDetectableTiles && !detectable) {
+            if (!(neighbouringDetectableTiles || detectable)) {
+                //System.out.println("Opening neighbours!");
                 Tile.getNeighbouringTiles(this.grid, this).forEach(Tile::open);
             }
         }
@@ -189,15 +276,17 @@ public class Tile {
         int openDetectableNeighbourCount = Tile.getOpenTiles(detectableNeighbours).size();
         int lockedNeighbourCount = Tile.getLockedNeighbours(this.grid, this).size();
 
-        // If enough nearby detectable tiles have been locked or opened, open nearby tiles
-        if (lockedNeighbourCount + openDetectableNeighbourCount >= detectableNeighbourCount) {
+        boolean enoughDetectablesIdentified = lockedNeighbourCount + openDetectableNeighbourCount >= detectableNeighbourCount;
+
+        // If enough nearby detectable tiles have been identified, open nearby tiles
+        if (enoughDetectablesIdentified && !this.getItem().getDetectable()) {
             // Get all neighbours
             List<Tile> neighbouringTiles = Tile.getNeighbouringTiles(this.grid, this);
 
             // And open them
             neighbouringTiles.forEach(Tile::open);
         } else {
-            System.out.println("Can't open neighbours: Not enough tiles have been locked");
+            //System.out.println("Can't open neighbours: Not enough tiles have been locked");
         }
     }
 }

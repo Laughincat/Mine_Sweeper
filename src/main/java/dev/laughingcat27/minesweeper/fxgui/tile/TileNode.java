@@ -11,21 +11,22 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 public class TileNode extends StackPane {
-    private Tile tile;
     @FXML
     private ItemNode itemNode;
     @FXML
-    private Button button;
+    private Button tileButton;
     @FXML
     private ImageView lockedImageView;
+
+    private Tile tile;
 
     public TileNode(Tile tile, int x, int y) {
         new ExtendedFxmlLoader().loadCustomObject(this, TileNode.class);
 
         this.tile = tile;
 
-        // The button dissapears when the tile is open
-        this.button.visibleProperty().bind(this.tile.getOpenProperty().not());
+        // When the tile opens the button should vanish
+        this.tileButton.visibleProperty().bind(this.tile.getOpenProperty().not());
 
         // Show the locked image as long as tile is locked
         this.lockedImageView.visibleProperty().bind(this.tile.getLockedProperty());
@@ -33,21 +34,17 @@ public class TileNode extends StackPane {
         // When the tile's item changes, update the itemNode
         this.itemNode.getItemProperty().bind(tile.getItemProperty());
 
-        // When the button is left clicked, open the tile
-        this.button.setOnAction(_ -> this.tile.open());
+        // When the button is left-clicked, open the tile
+        this.tileButton.setOnAction(_ -> this.tile.open());
 
-        // When the button is right clicked, lock the tile
-        this.button.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                tile.setLocked(!tile.getLocked());
-            }
+        // When the button is right-clicked, lock the tile
+        this.tileButton.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) tile.toggleLock();
         });
 
         // When the left mouse button releases the item node, try opening the neighbours
         this.itemNode.setOnMouseReleased(mouseEvent -> {
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                tile.openNeighbours();
-            }
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) tile.openNeighbours();
         });
 
         // Set grid position

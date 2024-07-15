@@ -3,10 +3,10 @@ package dev.laughingcat27.util.observer;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Subject {
+public abstract class Observable {
     private List<IObserver> observers;
 
-    public Subject() {
+    public Observable() {
         this.observers = new ArrayList<>();
     }
 

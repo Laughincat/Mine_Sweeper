@@ -1,11 +1,43 @@
 package dev.laughingcat27.minesweeper.model.board;
 
+import dev.laughingcat27.minesweeper.model.tile.Tile;
+
+import java.util.List;
+
 public class SimpleBoard extends Board {
 
     public SimpleBoard(int columns, int rows, int bombs) {
         super(columns, rows, bombs);
+
+        List<Tile> tiles = Tile.toTiles(super.getGrid());
+
+        // Whenever a tile gets opened, check for victory
+        tiles.forEach(tile -> tile.getOpenProperty().addListener(_ -> this.checkForVictory()));
+
+        // When a tile's item changes, check for victory
+        tiles.forEach(tile -> tile.getItemProperty().addListener(_ -> this.checkForVictory()));
     }
 
+    private boolean areAllNonBombsOpen() {
+        List<Tile> nonBombTiles = Tile.getNonBombTiles(Tile.toTiles(super.getGrid()));
+
+        //System.out.println(nonBombTiles.size());
+
+        int nonBombCount = nonBombTiles.size();
+        int openNonBombCount = Tile.getOpenTiles(nonBombTiles).size();
+
+        // Are all non-bombs open?
+        return openNonBombCount == nonBombCount;
+    }
+
+    @Override
+    protected void checkForVictory() {
+        if (this.areAllNonBombsOpen()) this.getGame().getGameStats().setVictory(true);
+    }
+
+    // Wtf is this code doing here?
+
+    // Oh wait this used to be the first board class but then it got renamed and another abstract Board class was made
 
     /*
     public Vector<Integer> getTilePosition(Tile tile) {
@@ -53,6 +85,4 @@ public class SimpleBoard extends Board {
         return tiles1;
     }
      */
-
-
 }
