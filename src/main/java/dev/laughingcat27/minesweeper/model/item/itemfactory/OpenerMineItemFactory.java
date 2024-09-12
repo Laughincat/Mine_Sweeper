@@ -1,6 +1,6 @@
 package dev.laughingcat27.minesweeper.model.item.itemfactory;
 
-import dev.laughingcat27.minesweeper.model.item.Item;
+import dev.laughingcat27.minesweeper.model.item.itemtypes.Item;
 import dev.laughingcat27.minesweeper.model.item.OpenerMineItem;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
 

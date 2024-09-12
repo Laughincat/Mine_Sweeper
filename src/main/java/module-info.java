@@ -30,4 +30,17 @@ module dev.laughingcat27.minesweeper {
     opens dev.laughingcat27.minesweeper.model.game to javafx.fxml;
     exports dev.laughingcat27.minesweeper.model.item.itemfactory;
     opens dev.laughingcat27.minesweeper.model.item.itemfactory to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.model.game.gamesettings;
+    opens dev.laughingcat27.minesweeper.model.game.gamesettings to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.model.game.gamestats;
+    opens dev.laughingcat27.minesweeper.model.game.gamestats to javafx.fxml;
+
+    exports dev.laughingcat27.util.observer;
+    opens dev.laughingcat27.util.observer to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.fxgui.game.gamesettingsselector;
+    opens dev.laughingcat27.minesweeper.fxgui.game.gamesettingsselector to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.fxgui.game.gamesettings;
+    opens dev.laughingcat27.minesweeper.fxgui.game.gamesettings to javafx.fxml;
+    exports dev.laughingcat27.minesweeper.model.item.itemtypes;
+    opens dev.laughingcat27.minesweeper.model.item.itemtypes to javafx.fxml;
 }

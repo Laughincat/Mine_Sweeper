@@ -1,7 +1,7 @@
 package dev.laughingcat27.minesweeper.model.tile;
 
 import dev.laughingcat27.minesweeper.model.board.Board;
-import dev.laughingcat27.minesweeper.model.item.Item;
+import dev.laughingcat27.minesweeper.model.item.itemtypes.Item;
 import dev.laughingcat27.minesweeper.model.item.MineItem;
 import javafx.beans.property.*;
 

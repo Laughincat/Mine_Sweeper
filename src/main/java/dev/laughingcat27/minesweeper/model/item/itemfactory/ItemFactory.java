@@ -1,8 +1,7 @@
 package dev.laughingcat27.minesweeper.model.item.itemfactory;
 
 import dev.laughingcat27.minesweeper.model.item.CounterItem;
-import dev.laughingcat27.minesweeper.model.item.Item;
-import dev.laughingcat27.minesweeper.model.item.SimpleMineItem;
+import dev.laughingcat27.minesweeper.model.item.itemtypes.Item;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
 import dev.laughingcat27.util.math.MathLib;
 

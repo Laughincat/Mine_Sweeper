@@ -1,4 +1,4 @@
-package dev.laughingcat27.minesweeper.model.game;
+package dev.laughingcat27.minesweeper.model.game.gamestats;
 
 import javafx.beans.property.*;
 

@@ -1,7 +1,7 @@
 package dev.laughingcat27.minesweeper.fxgui.game;
 
 import dev.laughingcat27.minesweeper.model.game.Game;
-import dev.laughingcat27.minesweeper.model.game.GameStats;
+import dev.laughingcat27.minesweeper.model.game.gamestats.GameStats;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
 import dev.laughingcat27.util.fx.fxmlloader.ExtendedFxmlLoader;
 import javafx.beans.binding.Bindings;
@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameTopBar extends StackPane {
     private static Image neutralImage;

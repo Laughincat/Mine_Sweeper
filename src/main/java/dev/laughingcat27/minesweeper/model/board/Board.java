@@ -1,11 +1,12 @@
 package dev.laughingcat27.minesweeper.model.board;
 
 import dev.laughingcat27.minesweeper.model.game.Game;
-import dev.laughingcat27.minesweeper.model.item.Item;
+import dev.laughingcat27.minesweeper.model.item.itemtypes.Item;
 import dev.laughingcat27.minesweeper.model.item.itemfactory.ItemFactory;
 import dev.laughingcat27.minesweeper.model.item.MineItem;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
 import dev.laughingcat27.minesweeper.model.tile.TileFactory;
+import dev.laughingcat27.util.observer.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -17,6 +18,9 @@ public abstract class Board {
     private final List<List<Tile>> grid;
     private ObjectProperty<Tile> firstOpenedTileProperty;
     private ObjectProperty<Game> gameProperty;
+
+    private Observable tileOpenedObservable;
+    private Observable tileLockedObservable;
 
     public Board(int columns, int rows, int bombs) {
         this.grid = TileFactory.createGrid(columns, rows, bombs);
@@ -49,6 +53,21 @@ public abstract class Board {
 
         // Once the first opened tile is found, populate everything
         this.firstOpenedTileProperty.addListener(_ -> this.populateGridWithItems(bombs));
+
+        // Add events
+        this.addEvents();
+    }
+
+    private void addEvents() {
+        this.tileOpenedObservable = new Observable() {};
+        this.tileLockedObservable = new Observable() {};
+
+        List<Tile> tiles = Tile.toTiles(this.grid);
+
+        tiles.forEach(tile -> {
+            tile.getOpenProperty().addListener((_, _, open) -> this.tileOpenedObservable.notifyObservers(open));
+            tile.getLockedProperty().addListener((_, _, locked) -> this.tileLockedObservable.notifyObservers(locked));
+        });
     }
 
     protected abstract void checkForVictory();

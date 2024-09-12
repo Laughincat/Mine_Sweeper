@@ -10,11 +10,19 @@ public abstract class Observable {
         this.observers = new ArrayList<>();
     }
 
-    protected void notifyObservers(Object arg) {
+    public void addObserver(IObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public void removeListener(IObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    public void notifyObservers(Object arg) {
         this.observers.forEach(iObserver -> iObserver.update(this, arg));
     }
 
-    protected void notifyObservers() {
+    public void notifyObservers() {
         this.notifyObservers(null);
     }
 }

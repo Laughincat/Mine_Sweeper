@@ -1,10 +1,7 @@
-package dev.laughingcat27.minesweeper.model.item;
+package dev.laughingcat27.minesweeper.model.item.itemtypes;
 
 import dev.laughingcat27.minesweeper.model.tile.Tile;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
 import java.util.List;
@@ -13,11 +10,13 @@ public abstract class Item {
     protected ObjectProperty<Tile> tileProperty;
     protected ObjectProperty<Image> imageProperty;
     private BooleanProperty detectableProperty;
+    private IntegerProperty detectionRangeProperty;
 
     public Item(List<List<Tile>> grid) {
         this.tileProperty = new SimpleObjectProperty<>();
         this.imageProperty = new SimpleObjectProperty<>();
-        this.detectableProperty = new SimpleBooleanProperty(false);
+        this.detectableProperty = new SimpleBooleanProperty();
+        this.detectionRangeProperty = new SimpleIntegerProperty();
 
         // Bind events
         /*
@@ -41,6 +40,10 @@ public abstract class Item {
 
     public boolean getDetectable() {
         return this.detectableProperty.get();
+    }
+
+    public int getDetectionRange() {
+        return this.detectionRangeProperty.get();
     }
 
     public Tile getTile() {

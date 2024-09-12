@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import dev.laughingcat27.util.fx.controls.IntegerField?>
-<fx:root type="StackPane" maxWidth="300"
+<fx:root type="StackPane"
          xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <VBox>
         <HBox>

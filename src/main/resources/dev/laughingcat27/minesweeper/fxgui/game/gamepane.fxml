@@ -11,7 +11,7 @@
 <?import dev.laughingcat27.minesweeper.fxgui.game.GameOverPane?>
 <?import dev.laughingcat27.minesweeper.fxgui.board.BoardPane?>
 <?import dev.laughingcat27.minesweeper.fxgui.game.GameTopBar?>
-<?import dev.laughingcat27.minesweeper.fxgui.game.GameSettingsPane?>
+<?import dev.laughingcat27.minesweeper.fxgui.game.gamesettingsselector.DuoGameSettingsPane?>
 <fx:root type="BorderPane"
          xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <top>
@@ -21,6 +21,6 @@
         <BoardPane fx:id="boardPane">
             <GameOverPane fx:id="gameOverPane" visible="false"/>
         </BoardPane>
-        <GameSettingsPane fx:id="gameSettingsPane"/>
+        <DuoGameSettingsPane fx:id="gameSettingsPane"/>
     </center>
 </fx:root>

@@ -1,7 +1,6 @@
 package dev.laughingcat27.minesweeper.fxgui.item;
 
-import dev.laughingcat27.minesweeper.model.item.Item;
-import dev.laughingcat27.util.fx.controls.SquareImageView;
+import dev.laughingcat27.minesweeper.model.item.itemtypes.Item;
 import dev.laughingcat27.util.fx.fxmlloader.ExtendedFxmlLoader;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

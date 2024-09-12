@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import dev.laughingcat27.util.fx.controls.IntegerField?>
+<?import dev.laughingcat27.minesweeper.fxgui.game.gamesettings.GameSettingsComboBox?>
+<?import dev.laughingcat27.minesweeper.fxgui.game.gamesettingsselector.CustomGameSettingsPane?>
+<?import dev.laughingcat27.minesweeper.fxgui.game.gamesettingsselector.PresetGameSettingsPane?>
+<fx:root type="StackPane" maxWidth="300"
+         xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <VBox>
+        <PresetGameSettingsPane fx:id="presetGameSettingsPane"/>
+        <CustomGameSettingsPane fx:id="customGameSettingsPane"/>
+    </VBox>
+</fx:root>

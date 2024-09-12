@@ -1,8 +1,10 @@
 package dev.laughingcat27.minesweeper.fxgui.game;
 
 import dev.laughingcat27.minesweeper.fxgui.board.BoardPane;
+import dev.laughingcat27.minesweeper.fxgui.game.gamesettingsselector.DuoGameSettingsPane;
+import dev.laughingcat27.minesweeper.fxgui.game.gamesettingsselector.GameSettingsPane;
 import dev.laughingcat27.minesweeper.model.game.Game;
-import dev.laughingcat27.minesweeper.model.game.GameSettings;
+import dev.laughingcat27.minesweeper.model.game.gamesettings.GameSettings;
 import dev.laughingcat27.minesweeper.model.game.SimpleGame;
 import dev.laughingcat27.minesweeper.model.item.MineItem;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
@@ -15,13 +17,7 @@ import javafx.scene.layout.BorderPane;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 
 public class GamePane extends BorderPane {
 
@@ -41,7 +37,7 @@ public class GamePane extends BorderPane {
 
         this.gameProperty = new SimpleObjectProperty<>();
 
-        this.gameSettingsPane.getGameSettingsProperty().addListener((_, _, gameSettings) -> this.setGame(gameSettings));
+        this.gameSettingsPane.getGameSettingsObservable().addObserver(((_, arg) -> this.setGame((GameSettings) arg)));
         this.gameProperty.addListener(_ -> this.onGameChanged());
 
         // When the player chooses to restart, restart!
