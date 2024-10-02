@@ -6,10 +6,10 @@ import dev.laughingcat27.minesweeper.model.tile.Tile;
 
 import java.util.List;
 
-public class OpenerMineItemFactory extends ItemFactory {
+public class OpenerMineItemFactory extends MineItemFactory {
 
     @Override
-    public Item createItem(List<List<Tile>> grid) {
+    public OpenerMineItem createItem(List<List<Tile>> grid) {
         return new OpenerMineItem(grid);
     }
 }

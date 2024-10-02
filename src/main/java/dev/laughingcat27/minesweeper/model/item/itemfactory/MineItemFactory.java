@@ -1,15 +1,13 @@
 package dev.laughingcat27.minesweeper.model.item.itemfactory;
 
 import dev.laughingcat27.minesweeper.model.item.MineItem;
-import dev.laughingcat27.minesweeper.model.item.NukeMineItem;
 import dev.laughingcat27.minesweeper.model.item.itemtypes.Item;
 import dev.laughingcat27.minesweeper.model.tile.Tile;
 
 import java.util.List;
 
-public class NukeMineItemFactory extends MineItemFactory {
+public abstract class MineItemFactory extends ItemFactory {
 
-    public NukeMineItem createItem(List<List<Tile>> grid) {
-        return new NukeMineItem(grid);
-    }
+    @Override
+    public abstract MineItem createItem(List<List<Tile>> grid);
 }

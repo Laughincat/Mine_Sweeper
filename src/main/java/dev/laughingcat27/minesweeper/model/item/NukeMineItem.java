@@ -21,6 +21,11 @@ public class NukeMineItem extends MineItem {
     }
 
     @Override
+    protected int initDetectionRange() {
+        return 2;
+    }
+
+    @Override
     public void onUsed() {
         // Get game
         Game game = this.getTile().getBoard().getGame();

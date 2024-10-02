@@ -25,12 +25,44 @@ public class CounterItem extends UsableItem {
         });
     }
 
-    private void updateCounter() {
+    @Override
+    protected int initDetectionRange() {
+        return 0;
+    }
+
+    @Deprecated
+    private void updateCounterOld() {
         Tile tile = super.getTile();
         List<Tile> tiles = Tile.getDetectableNeighbours(tile.getBoard().getGrid(), tile);
         this.countProperty.set(tiles.size());
     }
 
+    private void updateCounter() {
+        Tile tile = super.getTile();
+
+        // Get all detectable tiles
+        List<List<Tile>> grid = tile.getBoard().getGrid();
+        List<Tile> tiles = Tile.toTiles(grid);
+
+        List<Tile> detectableTiles = Tile.getDetectableTiles(tiles);
+
+        // Get detectable tiles that this tile can detect
+        List<Tile> detectedTiles = new ArrayList<>();
+
+        detectableTiles.forEach(detectableTile -> {
+            // Get tiles that can detect it
+            int detectionRange = detectableTile.getItem().getDetectionRange();
+            List<Tile> neighbouringTiles = Tile.getNeighbouringTiles(grid, detectableTile, detectionRange);
+
+            // Check if this tile is in range
+            if (neighbouringTiles.contains(tile)) detectedTiles.add(detectableTile);
+        });
+
+        // Update detected tile count
+        this.countProperty.set(detectedTiles.size());
+    }
+
+    /*
     private void updateCounterB() {
         Tile counterTile = super.getTile();
         List<Tile> counterTileCandidates = new ArrayList<>();
@@ -66,6 +98,7 @@ public class CounterItem extends UsableItem {
             }
         });
     }
+     */
 
     @Override
     public void onUsed() {

@@ -12,4 +12,9 @@ public abstract class MineItem extends ConsumableItem {
         super(grid);
         super.setDetectable(true);
     }
+
+    @Override
+    protected int initDetectionRange() {
+        return 1;
+    }
 }

@@ -65,7 +65,35 @@ public class Tile {
         return null;
     }
 
+    public static List<Tile> getNeighbouringTiles(List<List<Tile>> grid, Tile tile, int radius) {
+        Map<String, Integer> position = getTilePosition(grid, tile);
+        int xCenter = position.get("x");
+        int yCenter = position.get("y");
+
+        List<Tile> tiles = new ArrayList<>();
+
+        for (int x = xCenter - radius; x <= xCenter + radius; x++) {
+
+            if (x < 0 || x >= grid.size()) continue;
+
+            for (int y = yCenter - radius; y <= yCenter + radius; y++) {
+
+                if (y < 0 || y >= grid.getFirst().size()) continue;
+
+                Tile foundTile = grid.get(x).get(y);
+
+                // We don't want the center tile to be added ey?
+                if (!foundTile.equals(tile)) tiles.add(foundTile);
+            }
+        }
+
+        return tiles;
+    }
+
     public static List<Tile> getNeighbouringTiles(List<List<Tile>> grid, Tile tile) {
+        return getNeighbouringTiles(grid, tile, 1);
+
+        /*
         Map<String, Integer> position = getTilePosition(grid, tile);
         int x = position.get("x");
         int y = position.get("y");
@@ -98,6 +126,7 @@ public class Tile {
         }
 
         return tiles;
+         */
     }
 
     public static List<Tile> getDetectableTiles(List<Tile> tiles) {

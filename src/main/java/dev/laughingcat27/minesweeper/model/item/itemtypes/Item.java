@@ -9,6 +9,7 @@ import java.util.List;
 public abstract class Item {
     protected ObjectProperty<Tile> tileProperty;
     protected ObjectProperty<Image> imageProperty;
+    @Deprecated
     private BooleanProperty detectableProperty;
     private IntegerProperty detectionRangeProperty;
 
@@ -16,7 +17,7 @@ public abstract class Item {
         this.tileProperty = new SimpleObjectProperty<>();
         this.imageProperty = new SimpleObjectProperty<>();
         this.detectableProperty = new SimpleBooleanProperty();
-        this.detectionRangeProperty = new SimpleIntegerProperty();
+        this.detectionRangeProperty = new SimpleIntegerProperty(initDetectionRange());
 
         // Bind events
         /*
@@ -30,6 +31,9 @@ public abstract class Item {
          */
     }
 
+    // Subclasses must provide a detection range to be used in initialization
+    protected abstract int initDetectionRange();
+
     protected ObjectProperty<Tile> getTileProperty() {
         return this.tileProperty;
     }
@@ -38,6 +42,7 @@ public abstract class Item {
         return this.imageProperty;
     }
 
+    @Deprecated
     public boolean getDetectable() {
         return this.detectableProperty.get();
     }
@@ -58,6 +63,7 @@ public abstract class Item {
         this.imageProperty.set(image);
     }
 
+    @Deprecated
     protected void setDetectable(boolean detectable) {
         this.detectableProperty.set(detectable);
     }

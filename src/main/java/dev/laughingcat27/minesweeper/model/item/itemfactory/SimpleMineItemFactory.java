@@ -5,7 +5,7 @@ import dev.laughingcat27.minesweeper.model.tile.Tile;
 
 import java.util.List;
 
-public class SimpleMineItemFactory extends ItemFactory {
+public class SimpleMineItemFactory extends MineItemFactory {
 
     public SimpleMineItem createItem(List<List<Tile>> grid) {
         return new SimpleMineItem(grid);
